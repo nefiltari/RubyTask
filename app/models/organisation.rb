@@ -1,6 +1,7 @@
 require 'rdf'
 require 'rdf/ntriples'
 require 'rdf/sesame'
+require 'spira'
 include RDF
 
 Spira.add_repository! :ruta, Sesame::Repository.new("http://localhost:8080/openrdf-sesame/repositories/ruta")
