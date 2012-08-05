@@ -1,17 +1,17 @@
-%h1 Listing organisations
+= render partial: 'organisations/sidebar'
 
-%table
-  %tr
-    %th
-    %th
-    %th
+%section#contentbar
+  %h2 
+    = "Family HerpDerp"
+    = "- Organisation"
 
-  - @organisations.each do |organisation|
-    %tr
-      %td= link_to 'Show', organisation
-      %td= link_to 'Edit', edit_organisation_path(organisation)
-      %td= link_to 'Destroy', organisation, :confirm => 'Are you sure?', :method => :delete
+  %p
+    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
 
-%br
+  %h4 Latest Activities
 
-= link_to 'New Organisation', new_organisation_path
+  %section#organisations-newsfeed
+    - @last_activities.each do |activity|
+      = render partial: 'organisations/feed_item', locals: {activity: activity}
+
+.clearbar

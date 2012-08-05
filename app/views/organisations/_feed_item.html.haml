@@ -1,0 +1,7 @@
+%article.feed-item
+  %h4
+    - if activity.sender == @user
+      = "You"
+    - else
+      = activity.sender.upcase
+  = activity.action
