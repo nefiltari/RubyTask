@@ -1,0 +1,19 @@
+body {
+  /* same as in widgets of jqueryui */
+  font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+
+  /* general background gradient */
+  background: rgb(117,176,255);
+  background: -moz-linear-gradient(top,  rgba(117,176,255,1), rgba(219,244,255,1));
+  background: -webkit-gradient(linear, left top, left bottom, rgba(117,176,255,1), rgba(219,244,255,1) fixed);
+  background: -webkit-linear-gradient(top,  rgba(117,176,255,1),rgba(219,244,255,1) fixed);
+  background: -o-linear-gradient(top,  rgba(117,176,255,1) ,rgba(219,244,255,1));
+  background: -ms-linear-gradient(top,  rgba(117,176,255,1) ,rgba(219,244,255,1));
+  background: linear-gradient(to bottom,  rgba(117,176,255,1), rgba(219,244,255,1) fixed);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#75b0ff', endColorstr='#dbf4ff',GradientType=0 );
+
+  /*some tweaks */
+  padding: 20px;
+}

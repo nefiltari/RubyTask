@@ -1,0 +1,17 @@
+%h1 Listing task_steps
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @task_steps.each do |task_step|
+    %tr
+      %td= link_to 'Show', task_step
+      %td= link_to 'Edit', edit_task_step_path(task_step)
+      %td= link_to 'Destroy', task_step, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Task step', new_task_step_path

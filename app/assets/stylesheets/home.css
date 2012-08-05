@@ -1,0 +1,27 @@
+/*
+*   the main container which contains everything 
+*/
+#main {
+  width: 900px; 
+  margin-top: 20px; 
+  margin:auto; 
+}
+
+#banner-box {
+  margin: auto;
+  margin-bottom: 30px;
+  text-align: center;
+  height: 114px;
+}
+
+#content-box {
+  background: white; 
+  border: 1px solid orange;
+  font-size: 0.8em;
+  font-weight: normal;
+  padding: 30px;
+
+  -moz-box-shadow: 5px 5px 10px #555;
+  -webkit-box-shadow: 5px 5px 10px #555;
+  box-shadow: 5px 5px 10px #555;
+}

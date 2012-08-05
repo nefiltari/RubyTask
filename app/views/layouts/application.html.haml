@@ -1,0 +1,23 @@
+!!! 5
+%html
+  %head
+  
+    %title= "RubyTask - a Social TeamBox Clone"
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  
+  %body
+
+    #main
+      #banner-box
+        = image_tag "Banner2.png"
+
+      -# the stripes on top of the "content-book"
+      = render partial: '/shared/navigation'
+      
+      -# all content goes here
+      #content-box.ui-corner-all
+        = yield
+
+      = render partial: '/shared/dialog_organisations'

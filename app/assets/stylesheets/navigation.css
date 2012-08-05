@@ -1,0 +1,38 @@
+#navigation-box {
+  font-size: 0.7em;
+}
+
+.navigation-element {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 0px;
+  background: white;
+  float: left;
+
+  -moz-box-shadow: inset 0px -5px 10px #888;
+  -webkit-box-shadow: inset 0px -5px 10px #888;
+  box-shadow: inset 0px -5px 10px #888;
+}
+
+.navigation-stretchbox {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#navigation-clear {clear: both;}
+
+.navigation-hover {
+  background: #fbec88;
+  color: #363636;
+  cursor: pointer;
+  -moz-box-shadow: inset 0px -5px 10px #888;
+  -webkit-box-shadow: inset 0px -5px 10px #888;
+  box-shadow: inset 0px -5px 10px #888;
+}
+
+.dialog-custom {
+  font-size: 0.7em;
+  line-height: 2.5em;
+}

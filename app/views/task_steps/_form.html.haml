@@ -1,0 +1,10 @@
+= form_for @task_step do |f|
+  -if @task_step.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@task_step.errors.count, "error")} prohibited this task_step from being saved:"
+      %ul
+        - @task_step.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.submit 'Save'
