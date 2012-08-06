@@ -57,13 +57,10 @@ RubyTask::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   resources :home
-  resources :messages
-  resources :members
   resources :organisations
-  resources :tasks
-  resources :task_steps
 
   get "/login" => "sessions#new", as: :login
   match "/auth/:provider/callback" => "sessions#create"
   match "/auth/failure" => "sessions#failure"
+
 end
