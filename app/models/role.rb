@@ -8,7 +8,7 @@ class Role
   has_many :rights, predicate: Ruta::Property.has_right, type: :Right
 
   # Prüft, ob eine Rolle bereits existiert
-  # role_name: der zu prüfenden Rollenname
+  # rKeys: name
   def self.exist? params
     params[:name] ||= ""
     self.for(self.get_id(params[:name])).exist?
@@ -34,13 +34,8 @@ class Role
     uri.to_s.scan(/\/role\/(.*)$/)[0][0]
   end
 
-  # Extraktion eines enthaltenen Models.
-  def get model=nil
-    self
-  end
-
   # Erzeugt ein neues Role-Model mit angegebenen Namen.
-  # role_name: Ein gültiger Rollenname zb.: "Administrator"
+  # Keys: name
   def self.create params
     params[:name] ||= ""
     return nil unless id = self.get_id(params[:name])

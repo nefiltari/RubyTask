@@ -10,6 +10,8 @@ class Project
   has_many :members, predicate: Ruta::Property.has_member, type: :MemberInRole
   property :organisation, predicate: Ruta::Property.belongs_to, type: :Organisation
 
+  # Gibt das Role-Model des Benutzers im aktuellen Projekt aus
+  # member: Die Member-Modelinstanz des Benutzers
   def my_role member
     uri = self.uri
     query = RDF::Query.new do
@@ -17,13 +19,38 @@ class Project
       pattern [:mir, Ruta::Property.member, member.uri]
       pattern [:mir, Ruta::Property.role, :role]
     end
-    role
-    query.execute(Ruta::Repo).each do |sol|
-      role = sol.role.as(Role)
-    end
+    role = nil
+    query.execute(Ruta::Repo).each { |sol| role = sol.role.as(Role) }
     role
   end
 
+  # Gibt alle Tasks aus, die innerhalb des aktuellen Projekts definiert sind.
+  def tasks
+    uri = self.uri
+    query = RDF::Query.new do
+      pattern [:task, RDF.type, Ruta::Class.task]
+      pattern [:task, Ruta::Property.belongs_to, uri]
+    end
+    tasks = []
+    query.execute(Ruta::Repo).each { |sol| tasks.push(sol.milestone.as(Milestone)) }
+    tasks
+  end
+
+  # Du zu einem Projekt gehörenden Milstones als Modelinstanz-Array
+  def milestones
+    uri = self.uri
+    query = RDF::Query.new do
+      pattern [:milestone, RDF.type, Ruta::Class.milestone]
+      pattern [:milestone, Ruta::Property.belongs_to, uri]
+    end
+    mss = []
+    query.execute(Ruta::Repo).each { |sol| mss.push(sol.milestone.as(Milestone)) }
+    mss
+  end
+
+  # Prüft ob ein Benutzer im aktuellen Kontext (Projekt) im Besitz eines Rechtes ist
+  # member: Die Member-Modelinstanz des Benutzers
+  # right: Das zu prüfende Recht als RDF::URI oder Modelinstanz
   def member_in_right? member, right
     uri = self.uri
     right = right.uri if right.class == Right
@@ -36,6 +63,9 @@ class Project
     query.execute(Ruta::Repo).count >= 1
   end
 
+  # Fügt ein neues Mitglied mit einer entsprechenden Rolle zum Projekt hinzu.
+  # member: Die Member-Modelinstanz des neuen Mitglieds
+  # role: Die Rolle, die der Nutzer einnehmen soll als RDF::URI oder Modelinstanz
   def add_member member, role
     return if exist_member? member
     role = role.as(Role) unless role.class == Role
@@ -44,6 +74,8 @@ class Project
     save!
   end
 
+  # Löscht ein Mitglied inklusive der Rolle aus dem Projekt
+  # member: Die Member-Modelinstanz des Mitglieds
   def delete_member member
     uri = self.uri
     query = RDF::Query.new do
@@ -60,6 +92,8 @@ class Project
     end
   end
 
+  # Prüft, ob ein Benutzer ein Mitglied des Projektes ist.
+  # member: Die Member-Modelinstanz des Benutzers
   def exist_member? member
     uri = self.uri
     query = RDF::Query.new do
@@ -70,7 +104,6 @@ class Project
   end
 
   # Prüft, ob ein Projektname bereits existiert
-  # organisation: der zu prüfenden Projektname im Kontext von Organisation
   # Keys: name, organisation
   def self.exist? params
     params[:name] ||= ""
@@ -104,8 +137,7 @@ class Project
   end
 
   # Erzeugt ein neues Project-Model mit angegebenen Namen.
-  # project_name: Ein gültiger Projektname zb.: "Mein erstes Projekt"
-  # organisation: die dazugehörige Organisation als Organisation-Modelinstanz
+  # Keys: name, organisation
   def self.create params
     params[:name] ||= ""
     return nil unless id = self.get_id(params[:name], params[:organisation])

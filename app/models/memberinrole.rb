@@ -8,7 +8,7 @@ class MemberInRole
   property :role, predicate: Ruta::Property.role, type: :Role
 
   # Prüft, ob das Recht bereits existiert
-  # right_name: der zu prüfenden Rechtename
+  # Keys: name
   def self.exist? params
     params[:name] ||= ""
     self.for(self.get_id(params[:name])).exist?
@@ -33,7 +33,7 @@ class MemberInRole
   end
 
   # Erzeugt ein neues Role-Model mit angegebenen Namen.
-  # right_name: Ein gültiger Rechtename zb.: "Delete Members"
+  # Keys: name
   def self.create params
     return nil unless id = self.get_id(params[:member], params[:role])
     mir = self.for id

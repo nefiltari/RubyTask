@@ -8,30 +8,31 @@ class Member
   property :created_at, predicate: Ruta::Property.created_at, type: RDF::XSD.dateTime
   property :realname, predicate: Ruta::Property.has_real_name, type: RDF::XSD.string
 
+  # Gibt alle vergebenen Task, der der Nutzer selbst erstellt hat aus.
   def own_tasks
     uri = uri.self
     query = RDF::Query.new do
+      pattern [:task, RDF.type, Ruta::Class.task]
       pattern [:task, Ruta::Property.has_creator, uri]
     end
     tasks = []
-    query.execute(Ruta::Repo).each do |sol|
-      tasks.push(sol.task.as(Task))
-    end
+    query.execute(Ruta::Repo).each { |sol| tasks.push(sol.task.as(Task)) }
     tasks
   end
 
+  # Gibt alle diesem Nutzer zugewiesenen Tasks aus.
   def work_tasks
     uri = uri.self
     query = RDF::Query.new do
+      pattern [:task, RDF.type, Ruta::Class.task]
       pattern [:task, Ruta::Property.has_worker, uri]
     end
     tasks = []
-    query.execute(Ruta::Repo).each do |sol|
-      tasks.push(sol.task.as(Task))
-    end
+    query.execute(Ruta::Repo).each { |sol| tasks.push(sol.task.as(Task)) }
     tasks
   end
 
+  # Gibt alle Organisationen aus, in denen der Nutzer ein Mitglied ist.
   def organisations
     uri = uri.self
     query = RDF::Query.new do
@@ -40,12 +41,11 @@ class Member
       pattern [:mir, Ruta::Property.member, uri]
     end
     orgs = []
-    query.execute(Ruta::Repo).each do |sol|
-      orgs.push(sol.org.as(Organisation))
-    end
+    query.execute(Ruta::Repo).each { |sol| orgs.push(sol.org.as(Organisation)) }
     orgs
   end
 
+  # Gibt alle Projekte aus, in denen der Nutzer ein Mitglied ist.
   def projects
     uri = uri.self
     query = RDF::Query.new do
@@ -54,14 +54,12 @@ class Member
       pattern [:mir, Ruta::Property.member, uri]
     end
     projs = []
-    query.execute(Ruta::Repo).each do |sol|
-      projs.push(sol.proj.as(Organisation))
-    end
+    query.execute(Ruta::Repo).each { |sol| projs.push(sol.proj.as(Organisation)) }
     projs
   end
 
   # Prüft, ob ein Loginname bereits existiert
-  # member_name: der zu prüfenden Loginname
+  # Keys: name
   def self.exist? params
     params[:name] ||= ""
     self.for(self.get_id(params[:name])).exist?
@@ -88,7 +86,7 @@ class Member
   end
 
   # Erzeugt ein neues Member-Model mit angegebenen name
-  # member_name: Ein Loginname
+  # Keys: name
   def self.create params
     params[:name] ||= ""
     member = self.for self.get_id(params[:name])

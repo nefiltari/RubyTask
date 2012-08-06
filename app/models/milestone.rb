@@ -11,7 +11,7 @@ class Milestone
   property :project, predicate: Ruta::Property.belongs_to, type: :Project
 
   # Prüft, ob ein Milestone bereits existiert
-  # milestone_name: der zu prüfenden Milestonename im Kontext des Projekts
+  # Keys: name, project
   def self.exist? params
     params[:name] ||= ""
     self.for(self.get_id(params[:name], params[:project])).exist?
@@ -43,8 +43,7 @@ class Milestone
   end
 
   # Erzeugt ein neues Milestone-Model mit angegebenen Namen.
-  # milestone_name: Ein gültiger Milstonename zb.: "Analyse"
-  # project: das dazugehörige Projekt als Projekt-Modelinstanz
+  # Keys: name, project
   def self.create params
     params[:name] ||= ""
     return nil unless id = self.get_id(params[:name], params[:project])

@@ -9,7 +9,7 @@ class Taskstep
   property :task, predicate: Ruta::Property.belongs_to, type: :Task
 
   # Prüft, ob ein Taskstep bereits existiert
-  # taskstep_name: der zu prüfenden Taskstepname im Kontext eines Tasks
+  # Keys: name
   def self.exist? params
     params[:name] ||= ""
     self.for(self.get_id(params[:name], params[:task])).exist?
@@ -39,18 +39,6 @@ class Taskstep
   # Ermittelt die ID der Modelinstanz.
   def get_id
     uri.to_s.scan(/\/taskstep\/(.*)$/)[0][0]
-  end
-
-  # Extraktion eines enthaltenen Models.
-  def get model=nil
-    case model
-      when :task
-        RDF::URI.new(Ruta::Instance["task/"]+get_id.scan(/^(.+)\//)[0][0]).as(Task)
-      when :organisation, :project, :owner, :creator, :target, :worker, :member
-        get(:task).get(model)
-      else
-        self
-    end
   end
 
   # Erzeugt ein neues Taskstep-Model mit angegebenen Namen.

@@ -11,11 +11,11 @@ class Task
   property :status, predicate: Ruta::Property.has_status, type: RDF::XSD.string
   property :created_at, predicate: Ruta::Property.created_at, type: RDF::XSD.dateTime
   property :completed_at, predicate: Ruta::Property.completed_at, type: RDF::XSD.dateTime
-  property :project, predicate: Ruta::Property.belongs_to_project, type: :Project
+  property :project, predicate: Ruta::Property.belongs_to, type: :Project
   has_many :workers, predicate: Ruta::Property.has_worker, type: :Member
 
   # Prüft, ob ein Task bereits existiert
-  # task_name: der zu prüfenden Taskname im Kontext des Projekts, des Eigentümers als auch des (optionalen) Targets
+  # Keys: name, project, owner, target
   def self.exist? params
     params[:name] ||= ""
     self.for(self.get_id(params[:name], params[:project], params[:owner], params[:target])).exist?
@@ -51,9 +51,7 @@ class Task
   end
 
   # Erzeugt ein neues Task-Model mit angegebenen Namen.
-  # task_name: Ein gültiger Taskname zb.: "Mein erstes Task"
-  # owner: der Ersteller des Tickets als Member-Modelinstanz
-  # target (optional): Bearbeiter des Tasks als Member-Modelinstanz (nil für Shared-Tasks)
+  # Keys: name, project, owner, target
   def self.create params
     params[:name] ||= ""
     return nil unless id = self.get_id(params[:name], params[:project], params[:owner], params[:target])

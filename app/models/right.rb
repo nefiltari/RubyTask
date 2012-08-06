@@ -35,7 +35,7 @@ class Right
   end
 
   # Erzeugt ein neues Role-Model mit angegebenen Namen.
-  # right_name: Ein gültiger Rechtename zb.: "Delete Members"
+  # Keys: name
   def self.create params
     params[:name] ||= ""
     return nil unless id = self.get_id(params[:name])
