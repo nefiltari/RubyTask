@@ -58,6 +58,9 @@ RubyTask::Application.routes.draw do
 
   resources :home
   resources :organisations
-  #match ':organisation#index'
+
+  get "/login" => "sessions#new", as: :login
+  match "/auth/:provider/callback" => "sessions#create"
+  match "/auth/failure" => "sessions#failure"
 
 end
