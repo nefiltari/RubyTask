@@ -1,8 +1,3 @@
-require 'rdf'
-require 'rdf/ntriples'
-require 'rdf/sesame'
-require 'spira'
-
 Spira.add_repository! :default, RDF::Sesame::Repository.new("http://localhost:8080/openrdf-sesame/repositories/ruta")
 
 class Ruta < RDF::Vocabulary("http://rubytask.org/")
@@ -52,14 +47,14 @@ class DateTime
   register_alias RDF::XSD.dateTime
 end
 
-require "./organisation"
-require "./member"
-require "./project"
-require "./milestone"
-require "./task"
-require "./taskstep"
-require "./role"
-require "./right"
-require "./memberinrole"
+require_relative "organisation"
+require_relative "member"
+require_relative "project"
+require_relative "milestone"
+require_relative "task"
+require_relative "taskstep"
+require_relative "role"
+require_relative "right"
+require_relative "memberinrole"
 
 Ruta.init
