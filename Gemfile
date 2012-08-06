@@ -8,7 +8,7 @@ gem 'jquery-ui-themes'
 
 # semantic web stuff and models
 gem 'rdf'
-gem 'rdf-xml'
+#gem 'rdf-xml'
 gem 'rdf-sesame'
 gem 'spira'
 
@@ -16,6 +16,9 @@ gem 'spira'
 gem 'pry'
 gem 'pry-rails', :group => :development
 
+# Authentication
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
