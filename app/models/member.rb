@@ -1,5 +1,6 @@
 class Member
   include Spira::Resource
+  extend Ruta::Helpers
 
   base_uri Ruta::Instance["member/"]
   type Ruta::Class.member
@@ -7,7 +8,8 @@ class Member
   property :name, predicate: Ruta::Property.has_name, type: RDF::XSD.string
   property :created_at, predicate: Ruta::Property.created_at, type: RDF::XSD.dateTime
   property :realname, predicate: Ruta::Property.has_real_name, type: RDF::XSD.string
-  property :gender, predicate: Ruta::Property.has_gender, type: RDF::XSD.string
+  property :avatar, predicate: Ruta::Property.has_avatar, type: Spira::Types::URI
+  has_many :friends, predicate: Ruta::Property.has_friends, type: :Member
 
   # Gibt alle vergebenen Task, der der Nutzer selbst erstellt hat aus.
   def own_tasks

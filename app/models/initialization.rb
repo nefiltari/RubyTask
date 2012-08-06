@@ -21,6 +21,22 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
     end
   end
 
+  module Helpers
+    def search token
+      cl = self
+      query = RDF::Query.new do
+        pattern [:model, RDF.type, Ruta::Class[cl.to_s.downcase]]          
+      end
+      results = []
+      query.execute(Ruta::Repo).each do |s|
+        if (s.model.as(self).name =~ /#{token}/i)
+          results.push(s.model.as(self))
+        end
+      end
+      results
+    end
+  end
+
   def self.init
     Global.org = if Organisation.exist? name: "<global>"
       Organisation.as name: "<global>"

@@ -1,5 +1,6 @@
 class Task
   include Spira::Resource
+  extend Ruta::Helpers
 
   base_uri Ruta::Instance["task/"]
   type Ruta::Class.task

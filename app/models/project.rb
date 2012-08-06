@@ -1,5 +1,6 @@
 class Project
   include Spira::Resource
+  extend Ruta::Helpers
 
   base_uri Ruta::Instance["project/"]
   type Ruta::Class.project

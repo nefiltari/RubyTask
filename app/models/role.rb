@@ -1,5 +1,6 @@
 class Role
   include Spira::Resource
+  extend Ruta::Helpers
 
   base_uri Ruta::Instance["role/"]
   type Ruta::Class.role

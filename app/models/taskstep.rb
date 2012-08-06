@@ -1,5 +1,6 @@
 class Taskstep
   include Spira::Resource
+  extend Ruta::Helpers
 
   base_uri Ruta::Instance["taskstep/"]
   type Ruta::Class.taskstep

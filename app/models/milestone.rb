@@ -1,5 +1,6 @@
 class Milestone
   include Spira::Resource
+  extend Ruta::Helpers
 
   base_uri Ruta::Instance["milestone/"]
   type Ruta::Class.milestone

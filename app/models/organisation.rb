@@ -1,5 +1,6 @@
 class Organisation
   include Spira::Resource
+  extend Ruta::Helpers
 
   base_uri Ruta::Instance["organisation/"]
   type Ruta::Class.organisation

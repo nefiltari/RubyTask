@@ -1,4 +1,5 @@
 class OrganisationsController < ApplicationController
+  before_filter :login
   # GET /organisations
   def index
     @user = "Herp"

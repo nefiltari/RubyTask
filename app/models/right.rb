@@ -1,5 +1,6 @@
 class Right
   include Spira::Resource
+  extend Ruta::Helpers
 
   base_uri Ruta::Instance["right/"]
   type Ruta::Class.right
