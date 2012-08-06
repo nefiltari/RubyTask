@@ -1,3 +1,10 @@
+module Spira
+  def settings
+    @settings ||= {}
+  end
+  module_function :settings
+end
+
 Spira.add_repository! :default, RDF::Sesame::Repository.new("http://localhost:8080/openrdf-sesame/repositories/ruta")
 
 class Ruta < RDF::Vocabulary("http://rubytask.org/")
