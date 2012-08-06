@@ -18,6 +18,9 @@ $(document).ready(function() {
   });
   //$('#navigation-3').click(window.location = "/tasks");
   //$('#navigation-4').click(window.location = "/messages");
+  $('#navigation-5').click(function () {
+    $('#dialog-search').dialog("open")
+  })
 
   $('button').button();
 });
@@ -31,5 +34,14 @@ function navigation_dialogs_init() {
     show: "clip",
     hide: "clip",
     title: "My Organisations"
+  });
+  $('#dialog-search').dialog({
+    autoOpen: false,
+    height: 500,
+    width: 600,
+    modal: true,
+    show: "clip",
+    hide: "clip",
+    title: "Search..."
   });
 }

@@ -1,9 +1,8 @@
 class OrganisationsController < ApplicationController
   # GET /organisations
   def index
-    #Ruta.init
     @user = "Herp"
-    
+
     require 'ostruct'    
     a1 = OpenStruct.new
     a1.sender = "Derpina"
@@ -16,7 +15,7 @@ class OrganisationsController < ApplicationController
     a2.action = "wrote a message"
 
     @last_activities = [a1, a2]
-    
+
     respond_to do |format|
       format.html # index.html.erb
     end

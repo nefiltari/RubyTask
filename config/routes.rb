@@ -57,9 +57,7 @@ RubyTask::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   resources :home
-  resources :messages
-  resources :members
   resources :organisations
-  resources :tasks
-  resources :task_steps
+  #match ':organisation#index'
+
 end
