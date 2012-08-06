@@ -47,14 +47,4 @@ class DateTime
   register_alias RDF::XSD.dateTime
 end
 
-require_relative "organisation"
-require_relative "member"
-require_relative "project"
-require_relative "milestone"
-require_relative "task"
-require_relative "taskstep"
-require_relative "role"
-require_relative "right"
-require_relative "memberinrole"
-
-Ruta.init
+#Ruta.init

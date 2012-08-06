@@ -1,8 +1,7 @@
 class OrganisationsController < ApplicationController
   # GET /organisations
-  # GET /organisations.json
   def index
-    
+    #Ruta.init
     @user = "Herp"
     
     require 'ostruct'    
@@ -20,7 +19,6 @@ class OrganisationsController < ApplicationController
     
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @organisations }
     end
   end
 
