@@ -18,6 +18,7 @@
       
       -# all content goes here
       #content-box.ui-corner-all
+        %p= flash[:notice]
         = yield
 
       = render partial: '/shared/dialog_organisations'
