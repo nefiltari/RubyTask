@@ -1,0 +1,15 @@
+%h2 Create a new Organisation
+
+%form{action: "/organisations/create", method:"post"}
+
+  %p 
+    Enter new organisation name: 
+    %input#organisation-new-name{name:"name"}
+  
+  %p
+    Enter a short description about your organisation:
+    %br
+    %textarea#organisation-new-description{name:'description',rows:5, cols:70}
+  
+  %p
+    %button create!

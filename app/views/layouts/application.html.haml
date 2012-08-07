@@ -11,7 +11,7 @@
 
     #main
       #banner-box
-        = image_tag "Banner2.png"
+        = image_tag "rubytask.png"
 
       -# the stripes on top of the "content-book"
       = render partial: '/shared/navigation'
@@ -20,6 +20,8 @@
       #content-box.ui-corner-all
         %p= flash[:notice]
         = yield
-
-      = render partial: '/shared/dialog_organisations'
+      #dialog-organisations.dialog-custom
       = render partial: '/shared/dialog_search'
+      #dialog-tmp-small.dialog-custom
+      #dialog-tmp-medium.dialog-custom
+      #dialog-tmp-large.dialog-custom

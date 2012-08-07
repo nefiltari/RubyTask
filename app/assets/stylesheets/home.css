@@ -20,6 +20,7 @@
   font-size: 0.8em;
   font-weight: normal;
   padding: 30px;
+  min-height: 700px;
 
   -moz-box-shadow: 5px 5px 10px #555;
   -webkit-box-shadow: 5px 5px 10px #555;

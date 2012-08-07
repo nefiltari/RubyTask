@@ -6,8 +6,6 @@ class HomeController < ApplicationController
   # GET /home
   # GET /home.json
   def index
-    # User-Control needed for the following: 
-    # redirect_to '/' unless User.logged_in?
 
     respond_to do |format|
       format.html # index.html.erb
