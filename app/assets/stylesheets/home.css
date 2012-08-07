@@ -5,6 +5,7 @@
   width: 900px; 
   margin-top: 20px; 
   margin:auto; 
+  /*background-image: url('background.png');*/
 }
 
 #banner-box {
@@ -15,11 +16,13 @@
 }
 
 #content-box {
-  background: white; 
-  border: 1px solid orange;
+  background: transparent;
+  background-image:url('Ringblock-Ring.png');
+  background-repeat: repeat-y; 
+  /*border: 1px solid orange;*/
   font-size: 0.8em;
   font-weight: normal;
-  padding-left: 40px;
+  padding-left: 90px;
   padding-right: 20px;
   padding-top: 20px;
   padding-bottom: 20px;
