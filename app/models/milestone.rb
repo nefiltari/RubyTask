@@ -19,7 +19,7 @@ class Milestone
     if params[:name].class == Milestone
       params[:name].get_id
     else
-      return nil unless (project_id = Project.get_id(params[:project]))
+      return nil unless (project_id = Project.get_id({name: params[:project]}))
       milestone_id = params[:name].downcase.gsub(/\s+/,"_")  
       "#{project_id}/#{milestone_id}"
     end

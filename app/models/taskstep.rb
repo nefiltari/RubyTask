@@ -18,7 +18,7 @@ class Taskstep
     if params[:name].class == Taskstep
       params[:name].get_id
     else
-      return nil unless (task_id = Task.get_id(params[:task]))
+      return nil unless (task_id = Task.get_id({name: params[:task]}))
       taskstep_id = params[:name].downcase.gsub(/\s+/,"_")
       "#{task_id}/#{taskstep_id}"
     end
