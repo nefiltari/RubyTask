@@ -1,18 +1,11 @@
-#dialog-organisations.dialog-custom
-  
-  %p
-    An Overview of all my Organisations and Teams. 
+%p
+  An Overview of all my Organisations and Teams. 
 
-  %ul
+%ul
+  - @my_organisations.each do |org|
     %li
-      %a{href:'/organisations'} Family HerpDerp
-    %li
-      %a{href:'#'} Company Derp&amp;Derp
-    %li
-      %a{href:'#'} Herpington Sports Club
-    %li
-      %a{href:'#'} ... (and so on)
+      %a{href:"/organisations/#{org.get_id}"}= org.name
 
-  %hr
+%hr
 
-  %button Found new Organisation!
+%a.my-a-button{href:'/organisations/new'} Found new Organisation!

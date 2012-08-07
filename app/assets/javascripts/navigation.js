@@ -14,7 +14,12 @@ $(document).ready(function() {
     window.location = "/";
   });
   $('#navigation-2').click(function() {
-    $('#dialog-organisations').dialog("open")
+    $('#dialog-organisations').dialog("open");
+    $('#dialog-organisations').html("loading...");
+    $.get("/organisations/dialog", function(data) {
+      $('#dialog-organisations').html(data);
+      $('.my-a-button').button();
+    })
   });
   //$('#navigation-3').click(window.location = "/tasks");
   //$('#navigation-4').click(window.location = "/messages");
@@ -44,4 +49,40 @@ function navigation_dialogs_init() {
     hide: "clip",
     title: "Search..."
   });
+  $('#dialog-tmp-small').dialog({
+    autoOpen: false,
+    height: 200,
+    width: 300,
+    modal: true,
+    show: "clip",
+    hide: "clip",
+    title: "RubyTask aks..."
+  });
+  $('#dialog-tmp-medium').dialog({
+    autoOpen: false,
+    height: 500,
+    width: 600,
+    modal: true,
+    show: "clip",
+    hide: "clip",
+    title: "RubyTask aks..."
+  });
+  $('#dialog-tmp-large').dialog({
+    autoOpen: false,
+    height: 700,
+    width: 600,
+    modal: true,
+    show: "clip",
+    hide: "clip",
+    title: "RubyTask aks..."
+  });
+}
+
+function navigation_dialog_organisations_open() {
+  $('#dialog-organisations').html("loading... <img src='/assets/loading.gif' alt='loading animation' />");
+  $('#dialog-organisations').dialog("open");
+  $.get("/organisations/dialog", function(data) {
+    $('#dialog-organisations').html(data);
+    $('.my-a-button').button();
+  })
 }

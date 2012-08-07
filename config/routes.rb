@@ -57,9 +57,17 @@ RubyTask::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   resources :home
-  resources :organisations
 
   get "/login" => "sessions#new", as: :login
+  get "/organisations/new" => "organisations#new"
+  post "/organisations/create" => "organisations#create"
+  get "/organisations/dialog" => "organisations#dialog"
+  match "/organisations/:id/edit" => "organisations#edit", as: :organisation_edit
+  post "/organisations/edit_do" => "organisations#edit_do", as: :organisation_tmp
+  match "/organisations/:id" => "organisations#show", as: :organisation_view
+  get "/organisations/dialog_add_member" => "organisations#dialog_add_member"
+
+
   match "/auth/:provider/callback" => "sessions#create"
   match "/auth/failure" => "sessions#failure"
 

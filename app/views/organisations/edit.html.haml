@@ -1,0 +1,10 @@
+%h3 
+  Edit Organisation: 
+  %b= @org.name
+
+%form{action: "/organisations/edit_do", method:"post"}
+
+  %textarea#organisation-new-description{name:'description',rows:5, cols:50}= @org.description
+  %br
+  %input{type:'hidden',name:'name',value:@org.name}
+  %input{type:'submit'}
