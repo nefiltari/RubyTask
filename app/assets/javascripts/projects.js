@@ -27,11 +27,11 @@ function projects_invite() {
   })
 }
 
-function projects_remove_member_with_id(id) {
+function projects_add_member_with_id(id) {
   var loc = window.location.toString().split("/");
   var proj = loc.pop();
   var org = loc.pop();
   var tr = $('tr[member_id='+id+']');
-  $.post("/projects/"+org+"/"+proj+"/add_member");
+  $.post("/projects/"+org+"/"+proj+"/add_member", {member_id: id});
   tr.remove(); //fuck off animations, motivation gone...
 }

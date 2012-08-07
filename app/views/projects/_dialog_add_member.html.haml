@@ -6,4 +6,4 @@
         %td
           %span{member_id:f.name}= f.realname
         %td
-          %button{onClick:"projects_remove_member_with_id(#{f.id.to_i});"} add
+          %button{onClick:"projects_add_member_with_id(#{f.name.to_i});"} add
