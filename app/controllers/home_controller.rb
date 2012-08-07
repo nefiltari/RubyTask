@@ -2,23 +2,25 @@
 
 class HomeController < ApplicationController
   before_filter :login
-  
-  # GET /home
-  # GET /home.json
-  def index
 
+  def index
     respond_to do |format|
       format.html # index.html.erb
     end
   end
 
   def invite
+    friend = Member.as name: params[:id]
+
+
     group = nil
     if params[:type] == "project"
       group = Project.as name: params[:name]
     else
       group = Organisation.as name: params[:name]
     end
+
+    group.add_member friend, Ruta::Role.administrator
 
     require 'net/http/post/multipart'
     require 'mime/types'
