@@ -28,6 +28,8 @@ $(document).ready(function() {
   })
 
   $('button').button();
+  $('.my-a-button').button();
+  $('input[type="submit"]').button();
 });
 
 function navigation_dialogs_init() {
