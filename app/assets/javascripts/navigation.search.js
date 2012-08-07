@@ -3,7 +3,7 @@ function navigation_search() {
 
   // do ajax request here...
   $('#search-results').html("searching...");
-  setTimeout(function () {
-    $('#search-results').html("<ul><li>Result 1</li><li>Result 2</li><li>Result 3</li></ul>")
-  }, 1000);
+  $.post("/home/search", {query: query}, function(data) {
+    $('#search-results').html(data);
+  })
 }
