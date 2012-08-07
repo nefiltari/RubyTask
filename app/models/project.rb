@@ -42,8 +42,8 @@ class Project
   def milestones
     uri = self.uri
     query = Ruta::Sparql.select.where(
-      pattern [:milestone, RDF.type, Ruta::Class.milestone],
-      pattern [:milestone, Ruta::Property.belongs_to, uri]
+      [:milestone, RDF.type, Ruta::Class.milestone],
+      [:milestone, Ruta::Property.belongs_to, uri]
     )
     mss = []
     query.each_solution { |sol| mss.push(sol.milestone.as(Milestone)) }
