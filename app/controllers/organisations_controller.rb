@@ -43,7 +43,7 @@ class OrganisationsController < ApplicationController
       o.add_member(@user, Ruta::Role.administrator)
       o.save!
       @o = o
-      redirect_to "/organisations/#{URI.escape(o.name)}"
+      redirect_to "/organisations/#{URI.escape(o.get_id)}"
     end
 
     redirect_to "/organisations/new" unless @o
@@ -64,7 +64,7 @@ class OrganisationsController < ApplicationController
     @org.add_member(@user, Ruta::Role.administrator)
     @org.save!
 
-    redirect_to '/organisations/'+URI.escape(params[:id])
+    redirect_to '/organisations/'+URI.escape(@org.get_id)
   end
 
   def leave
@@ -72,7 +72,7 @@ class OrganisationsController < ApplicationController
     @org.delete_member @user
     @org.save!
 
-    redirect_to '/organisations/'+URI.escape(params[:id])
+    redirect_to '/organisations/'+URI.escape(@org.get_id)
   end
 
   def edit
@@ -88,7 +88,7 @@ class OrganisationsController < ApplicationController
     @org.description = params[:description]
     @org.save!
 
-    redirect_to "/organisations/#{URI.escape(@org.name)}"
+    redirect_to "/organisations/#{URI.escape(@org.get_id)}"
   end
 
   def dialog
