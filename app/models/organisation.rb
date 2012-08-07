@@ -11,6 +11,17 @@ class Organisation
   property :created_at, predicate: Ruta::Property.created_at, type: RDF::XSD.dateTime
   has_many :members, predicate: Ruta::Property.has_member, type: :MemberInRole
 
+  def projects
+    uri = self.uri
+    query = Ruta::Sparql.select.where(
+      [:project, RDF.type, Ruta::Class.project]
+      [:project, Ruta::Property.belongs_to, uri],
+    )
+    projects = []
+    query.each_solution { |sol| projects.push(sol.project.as(Project)) }
+    projects
+  end
+
   # Gibt das Role-Model des Benutzers in der aktuellen Organisation aus
   # member: Die Member-Modelinstanz des Benutzers
   def my_role member
