@@ -1,6 +1,7 @@
 class Member
   include Spira::Resource
-  extend Ruta::Helpers
+  extend Ruta::ClassHelpers
+  include Ruta::InstanceHelpers
 
   base_uri Ruta::Instance["member/"]
   type Ruta::Class.member
@@ -14,85 +15,65 @@ class Member
   # Gibt alle vergebenen Task, der der Nutzer selbst erstellt hat aus.
   def own_tasks
     uri = self.uri
-    query = RDF::Query.new do
-      pattern [:task, RDF.type, Ruta::Class.task]
-      pattern [:task, Ruta::Property.has_creator, uri]
-    end
+    query = Ruta::Sparql.select.where(
+      [:task, RDF.type, Ruta::Class.task],
+      [:task, Ruta::Property.has_creator, uri]
+    )
     tasks = []
-    query.execute(Ruta::Repo).each { |sol| tasks.push(sol.task.as(Task)) }
+    query.each_solution { |sol| tasks.push(sol.task.as(Task)) }
     tasks
   end
 
   # Gibt alle diesem Nutzer zugewiesenen Tasks aus.
   def work_tasks
     uri = self.uri
-    query = RDF::Query.new do
-      pattern [:task, RDF.type, Ruta::Class.task]
-      pattern [:task, Ruta::Property.has_worker, uri]
-    end
+    query = Ruta::Sparql.select.where(
+      [:task, RDF.type, Ruta::Class.task],
+      [:task, Ruta::Property.has_worker, uri]
+    )
     tasks = []
-    query.execute(Ruta::Repo).each { |sol| tasks.push(sol.task.as(Task)) }
+    query.each_solution { |sol| tasks.push(sol.task.as(Task)) }
     tasks
   end
 
   # Gibt alle Organisationen aus, in denen der Nutzer ein Mitglied ist.
   def organisations
     uri = self.uri
-    query = RDF::Query.new do
-      pattern [:org, RDF.type, Ruta::Class.organisation]
-      pattern [:org, Ruta::Property.has_member, :mir]
-      pattern [:mir, Ruta::Property.member, uri]
-    end
+    query = Ruta::Sparql.select.where(
+      [:org, RDF.type, Ruta::Class.organisation],
+      [:org, Ruta::Property.has_member, :mir],
+      [:mir, Ruta::Property.member, uri]
+    )
     orgs = []
-    query.execute(Ruta::Repo).each { |sol| orgs.push(sol.org.as(Organisation)) }
+    query.each_solution { |sol| orgs.push(sol.org.as(Organisation)) }
     orgs
   end
 
   # Gibt alle Projekte aus, in denen der Nutzer ein Mitglied ist.
   def projects
     uri = self.uri
-    query = RDF::Query.new do
-      pattern [:proj, RDF.type, Ruta::Class.project]
-      pattern [:proj, Ruta::Property.has_member, :mir]
-      pattern [:mir, Ruta::Property.member, uri]
-    end
+    query = Ruta::Sparql.select.where(
+      [:proj, RDF.type, Ruta::Class.project],
+      [:proj, Ruta::Property.has_member, :mir],
+      [:mir, Ruta::Property.member, uri]
+    )
     projs = []
-    query.execute(Ruta::Repo).each { |sol| projs.push(sol.proj.as(Organisation)) }
+    query.each_solution { |sol| projs.push(sol.proj.as(Organisation)) }
     projs
   end
 
-  # Prüft, ob ein Loginname bereits existiert
-  # Keys: name
-  def self.exist? params
-    params[:name] ||= ""
-    self.for(self.get_id(params[:name])).exist?
-  end
-
   # Erzeugt eine ID von einem Member
-  # member: Name oder Modelinstanz
-  def self.get_id member
-    return nil unless member
-    return member.get_id if member.class == Member
-    member.downcase
-  end
-
-  # Kurzform zum Wiederherstellen einer Modelinstanz mittels einees Parameterhashs
-  # Keys: name
-  def self.as params
-    params[:name] ||= ""
-    self.for self.get_id(params[:name])
-  end
-
-  # Ermittelt die ID der Modelinstanz.
-  def get_id
-    uri.to_s.scan(/\/member\/(.*)$/)[0][0]
+  def self.get_id params
+    return nil unless params[:name]
+    return params[:name].get_id if params[:name].class == Member
+    params[:name].downcase
   end
 
   # Erzeugt ein neues Member-Model mit angegebenen name
   # Keys: name
   def self.create params
     params[:name] ||= ""
-    member = self.for self.get_id(params[:name])
+    member = self.for self.get_id(params)
     member.name = params[:name].capitalize
     member.created_at = DateTime.now
     member.save!

@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 
     member.realname = auth_hash[:info][:name]
     member.avatar = auth_hash[:info][:image]
-    member.friends.clear    
+    member.friends.clear
     user = FbGraph::User.me(auth_hash[:credentials][:token])
     user.friends.each do |f|
       friend_id = f.raw_attributes["id"].to_s

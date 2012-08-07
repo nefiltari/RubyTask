@@ -1,6 +1,7 @@
 class Taskstep
   include Spira::Resource
-  extend Ruta::Helpers
+  extend Ruta::ClassHelpers
+  include Ruta::InstanceHelpers
 
   base_uri Ruta::Instance["taskstep/"]
   type Ruta::Class.taskstep
@@ -9,37 +10,18 @@ class Taskstep
   property :status, predicate: Ruta::Property.has_status, type: RDF::XSD.boolean
   property :task, predicate: Ruta::Property.belongs_to, type: :Task
 
-  # Prüft, ob ein Taskstep bereits existiert
-  # Keys: name
-  def self.exist? params
-    params[:name] ||= ""
-    self.for(self.get_id(params[:name], params[:task])).exist?
-  end
-
   # Erzeugt eine ID aus einem Taskstep und einem Task
   # taskstep: Name oder Modelinstanz
   # task: Task-Modelinstanz
-  def self.get_id taskstep, task=nil
-    return nil unless taskstep
-    if taskstep.class == Taskstep
-      taskstep.get_id
+  def self.get_id params
+    return nil unless params[:name]
+    if params[:name].class == Taskstep
+      params[:name].get_id
     else
-      return nil unless (task_id = Task.get_id(task))
-      taskstep_id = taskstep.downcase.gsub(/\s+/,"_")
+      return nil unless (task_id = Task.get_id(params[:task]))
+      taskstep_id = params[:name].downcase.gsub(/\s+/,"_")
       "#{task_id}/#{taskstep_id}"
     end
-  end
-
-  # Kurzform zum Wiederherstellen einer Modelinstanz mittels einees Parameterhashs
-  # Keys: name, task
-  def self.as params
-    params[:name] ||= ""
-    self.for self.get_id(params[:name], params[:task])
-  end
-
-  # Ermittelt die ID der Modelinstanz.
-  def get_id
-    uri.to_s.scan(/\/taskstep\/(.*)$/)[0][0]
   end
 
   # Erzeugt ein neues Taskstep-Model mit angegebenen Namen.
@@ -47,7 +29,7 @@ class Taskstep
   # task: Der zum Taskstep gehörenden Task als Modelinstanz
   def self.create params
     params[:name] ||= ""
-    return nil unless id = self.get_id(params[:name], params[:task])
+    return nil unless id = self.get_id(params)
     ts = self.for id
     ts.name = params[:name]
     ts.task = params[:task]

@@ -1,6 +1,7 @@
 class Project
   include Spira::Resource
-  extend Ruta::Helpers
+  extend Ruta::ClassHelpers
+  include Ruta::InstanceHelpers
 
   base_uri Ruta::Instance["project/"]
   type Ruta::Class.project
@@ -15,37 +16,37 @@ class Project
   # member: Die Member-Modelinstanz des Benutzers
   def my_role member
     uri = self.uri
-    query = RDF::Query.new do
-      pattern [uri, Ruta::Property.has_member, :mir]
-      pattern [:mir, Ruta::Property.member, member.uri]
-      pattern [:mir, Ruta::Property.role, :role]
-    end
+    query = Ruta::Sparql.select.where(
+      [uri, Ruta::Property.has_member, :mir],
+      [:mir, Ruta::Property.member, member.uri],
+      [:mir, Ruta::Property.role, :role]
+    )
     role = nil
-    query.execute(Ruta::Repo).each { |sol| role = sol.role.as(Role) }
+    query.each_solution { |sol| role = sol.role.as(Role) }
     role
   end
 
   # Gibt alle Tasks aus, die innerhalb des aktuellen Projekts definiert sind.
   def tasks
     uri = self.uri
-    query = RDF::Query.new do
-      pattern [:task, RDF.type, Ruta::Class.task]
-      pattern [:task, Ruta::Property.belongs_to, uri]
-    end
+    query = Ruta::Sparql.select.where(
+      [:task, RDF.type, Ruta::Class.task],
+      [:task, Ruta::Property.belongs_to, uri]
+    )
     tasks = []
-    query.execute(Ruta::Repo).each { |sol| tasks.push(sol.milestone.as(Milestone)) }
+    query.each_solution { |sol| tasks.push(sol.milestone.as(Milestone)) }
     tasks
   end
 
   # Du zu einem Projekt gehörenden Milstones als Modelinstanz-Array
   def milestones
     uri = self.uri
-    query = RDF::Query.new do
-      pattern [:milestone, RDF.type, Ruta::Class.milestone]
+    query = Ruta::Sparql.select.where(
+      pattern [:milestone, RDF.type, Ruta::Class.milestone],
       pattern [:milestone, Ruta::Property.belongs_to, uri]
-    end
+    )
     mss = []
-    query.execute(Ruta::Repo).each { |sol| mss.push(sol.milestone.as(Milestone)) }
+    query.each_solution { |sol| mss.push(sol.milestone.as(Milestone)) }
     mss
   end
 
@@ -55,13 +56,13 @@ class Project
   def member_in_right? member, right
     uri = self.uri
     right = right.uri if right.class == Right
-    query = RDF::Query.new do
-      pattern [uri, Ruta::Property.has_member, :mir]
-      pattern [:mir, Ruta::Property.member, member.uri]
-      pattern [:mir, Ruta::Property.role, :role]
-      pattern [:role, Ruta::Property.has_right, right]
-    end
-    query.execute(Ruta::Repo).count >= 1
+    query = Ruta::Sparql.select.where(
+      [uri, Ruta::Property.has_member, :mir],
+      [:mir, Ruta::Property.member, member.uri],
+      [:mir, Ruta::Property.role, :role],
+      [:role, Ruta::Property.has_right, right]
+    )
+    query.each_solution.count >= 1
   end
 
   # Fügt ein neues Mitglied mit einer entsprechenden Rolle zum Projekt hinzu.
@@ -79,12 +80,12 @@ class Project
   # member: Die Member-Modelinstanz des Mitglieds
   def delete_member member
     uri = self.uri
-    query = RDF::Query.new do
-      pattern [uri, Ruta::Property.has_member, :mir]
-      pattern [:mir, Ruta::Property.member, member.uri]
-    end
+    query = Ruta::Sparql.select.where(
+      [uri, Ruta::Property.has_member, :mir],
+      [:mir, Ruta::Property.member, member.uri]
+    )
     proj = self
-    query.execute(Ruta::Repo).each do |s|
+    query.each_solution do |s|
       proj.members.each do |o|
         proj.members = proj.members.delete(o) if o.uri == s.mir
       end
@@ -97,51 +98,32 @@ class Project
   # member: Die Member-Modelinstanz des Benutzers
   def exist_member? member
     uri = self.uri
-    query = RDF::Query.new do
-      pattern [uri, Ruta::Property.has_member, :mir]
-      pattern [:mir, Ruta::Property.member, member.uri]
-    end
-    query.execute(Ruta::Repo).count >= 1
-  end
-
-  # Prüft, ob ein Projektname bereits existiert
-  # Keys: name, organisation
-  def self.exist? params
-    params[:name] ||= ""
-    self.for(self.get_id(params[:name], params[:organisation])).exist?
+    query = Ruta::Sparql.select.where(
+      [uri, Ruta::Property.has_member, :mir],
+      [:mir, Ruta::Property.member, member.uri]
+    )
+    query.each_solution.count >= 1
   end
 
   # Erzeugt eine ID aus einem Projekt und der dazugehörenden Organisation.
   # project: Name oder Modelinstanz
   # organisation: die dazugehörige Organisation als Organisation-Modelinstanz
-  def self.get_id project, organisation=nil
-    return nil unless project
-    if project.class == Project
-      project.get_id
+  def self.get_id params
+    return nil unless params[:name]
+    if params[:name].class == Project
+      params[:name].get_id
     else
-      return nil unless (org_id = Organisation.get_id(organisation))
-      proj_id = project.downcase.gsub(/\s+/,"_")
+      return nil unless (org_id = Organisation.get_id(params[:organisation]))
+      proj_id = params[:name].downcase.gsub(/\s+/,"_")
       "#{org_id}/#{proj_id}"
     end
-  end
-
-  # Kurzform zum Wiederherstellen einer Modelinstanz mittels einees Parameterhashs
-  # Keys: name, organisation
-  def self.as params
-    params[:name] ||= ""
-    self.for self.get_id(params[:name], params[:organisation])
-  end
-
-  # Ermittelt die ID der Modelinstanz.
-  def get_id
-    uri.to_s.scan(/\/project\/(.*)$/)[0][0]
   end
 
   # Erzeugt ein neues Project-Model mit angegebenen Namen.
   # Keys: name, organisation
   def self.create params
     params[:name] ||= ""
-    return nil unless id = self.get_id(params[:name], params[:organisation])
+    return nil unless id = self.get_id(params)
     proj = self.for id
     proj.name = params[:name]
     proj.created_at = DateTime.now

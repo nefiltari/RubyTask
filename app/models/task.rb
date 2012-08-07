@@ -1,6 +1,7 @@
 class Task
   include Spira::Resource
-  extend Ruta::Helpers
+  extend Ruta::ClassHelpers
+  include Ruta::InstanceHelpers
 
   base_uri Ruta::Instance["task/"]
   type Ruta::Class.task
@@ -15,11 +16,15 @@ class Task
   property :project, predicate: Ruta::Property.belongs_to, type: :Project
   has_many :workers, predicate: Ruta::Property.has_worker, type: :Member
 
-  # Prüft, ob ein Task bereits existiert
-  # Keys: name, project, owner, target
-  def self.exist? params
-    params[:name] ||= ""
-    self.for(self.get_id(params[:name], params[:project], params[:owner], params[:target])).exist?
+  def tasksteps
+    uri = self.uri
+    query = Ruta::Sparql.select.where(
+      [:taskstep, RDF.type, Ruta::Class.taskstep],
+      [:taskstep, Ruta::Property.belongs_to, uri]
+    )
+    tasksteps = []
+    query.each_solution { |sol| tasksteps.push(sol.taskstep.as(Milestone)) }
+    tasksteps
   end
 
   # Erzeugt eine ID aus einem Task sowie dem dazugehörenden Projekt, Eigentümer und einem optionalen Ziel
@@ -27,35 +32,23 @@ class Task
   # project: Project-Modelinstanz des Tasks
   # owner: Eingentümer des Tasks als Member-Modelinstanz
   # target (optional): Bearbeiter des Tasks als Member-Modelinstanz (nil für Shared-Tasks)
-  def self.get_id task, project=nil, owner=nil, target=nil
-    return nil unless task
-    if task.class == Task
-      task.get_id
+  def self.get_id params
+    return nil unless params[:name]
+    if params[:name].class == Task
+      params[:name].get_id
     else
-      return nil unless (project_id = Project.get_id(project)) && (owner_id = Member.get_id(owner))
-      task_id = task.downcase.gsub(/\s+/,"_")
-      target_id = (target.class == Member) ? "/#{target.get_id}" : ""
+      return nil unless (project_id = Project.get_id(params[:project])) && (owner_id = Member.get_id(params[:owner]))
+      task_id = params[:name].downcase.gsub(/\s+/,"_")
+      target_id = (params[:target].class == Member) ? "/#{params[:target].get_id}" : ""
       "#{project_id}/#{owner_id}/#{task_id}#{target_id}"
     end
-  end
-
-  # Kurzform zum Wiederherstellen einer Modelinstanz mittels einees Parameterhashs
-  # Keys: name, project, owner, target
-  def self.as params
-    params[:name] ||= ""
-    self.for self.get_id(params[:name], params[:project], params[:owner], params[:target])
-  end
-
-  # Ermittelt die ID der Modelinstanz.
-  def get_id
-    uri.to_s.scan(/\/task\/(.*)$/)[0][0]
   end
 
   # Erzeugt ein neues Task-Model mit angegebenen Namen.
   # Keys: name, project, owner, target
   def self.create params
     params[:name] ||= ""
-    return nil unless id = self.get_id(params[:name], params[:project], params[:owner], params[:target])
+    return nil unless id = self.get_id(params)
     task = self.for id
     task.name = params[:name]
     task.created_at = DateTime.now

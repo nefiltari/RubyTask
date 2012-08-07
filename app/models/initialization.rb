@@ -22,20 +22,45 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
     end
   end
 
-  module Helpers
+  module ClassHelpers
     def search token
       cl = self
-      query = RDF::Query.new do
-        pattern [:model, RDF.type, Ruta::Class[cl.to_s.downcase]]          
-      end
+      query = Ruta::Sparql.select.where(
+        [:model, RDF.type, Ruta::Class[cl.to_s.downcase]],
+        [:model, (cl == Member) ? Ruta::Property.has_real_name : Ruta::Property.has_name, :name]
+      )
+      pp query
       results = []
-      query.execute(Ruta::Repo).each do |s|
-        mname = (self == Member) ? s.model.as(self).realname : s.model.as(self).name
+      query.each_solution do |s|
+        mname = s.name.to_s
+        puts mname
         if (mname =~ /#{token}/i)
           results.push(s.model.as(self))
         end
       end
       results
+    end
+
+    def exist? params
+      uri = Ruta::Instance["#{self.to_s.downcase}/#{self.get_id(params)}"]
+      cl = self
+      query = Ruta::Sparql.select.where(
+        [uri, RDF.type, Ruta::Class[cl.to_s.downcase]]
+      )
+      query.each_solution.count >= 1
+    end
+
+    # Kurzform zum Wiederherstellen einer Modelinstanz mittels einees Parameterhashs
+    def as params
+      params[:name] ||= ""
+      self.for self.get_id(params)
+    end
+  end
+
+  module InstanceHelpers
+    # Ermittelt die ID der Modelinstanz.
+    def get_id
+      self.uri.to_s.scan(/\/#{self.class.to_s.downcase}\/(.*)$/)[0][0]
     end
   end
 
