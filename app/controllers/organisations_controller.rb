@@ -49,11 +49,29 @@ class OrganisationsController < ApplicationController
   
   def show
     @org = Organisation.as name: params[:id]
+    @members = @org.members
+    @is_member = @org.exist_member? @user
 
     respond_to do |format|
       format.html # show.html.erb
     end
   end 
+
+  def join
+    @org = Organisation.as name: params[:id]
+    @org.add_member(@user, Ruta::Role.administrator)
+    @org.save!
+
+    redirect_to '/organisations/'+params[:id]
+  end
+
+  def leave
+    @org = Organisation.as name: params[:id]
+    @org.delete_member @user
+    @org.save!
+
+    redirect_to '/organisations/'+params[:id]
+  end
 
   def edit
     @org = Organisation.as name: params[:id]
@@ -79,6 +97,8 @@ class OrganisationsController < ApplicationController
 
   def dialog_add_member
     @friends = @user.friends
+    require 'pp'
+    pp @friends
     render partial: '/organisations/dialog_add_member', layout: false
   end
 

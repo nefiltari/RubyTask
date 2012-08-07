@@ -56,7 +56,7 @@ function navigation_dialogs_init() {
     modal: true,
     show: "clip",
     hide: "clip",
-    title: "RubyTask aks..."
+    title: "RubyTask asks..."
   });
   $('#dialog-tmp-medium').dialog({
     autoOpen: false,
@@ -65,7 +65,7 @@ function navigation_dialogs_init() {
     modal: true,
     show: "clip",
     hide: "clip",
-    title: "RubyTask aks..."
+    title: "RubyTask asks..."
   });
   $('#dialog-tmp-large').dialog({
     autoOpen: false,
@@ -74,7 +74,7 @@ function navigation_dialogs_init() {
     modal: true,
     show: "clip",
     hide: "clip",
-    title: "RubyTask aks..."
+    title: "RubyTask asks..."
   });
 }
 

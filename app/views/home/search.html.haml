@@ -1,0 +1,19 @@
+%h4 
+  found Organisations(
+  = @org_results.size
+  )
+%ul
+  - @org_results.each do |org|
+    %li
+      - name = org.name
+      %a{href:'/organisations/'+name}= name
+
+%h4
+  found Projects(
+  = @proj_results.size
+  )
+%ul
+  - @proj_results.each do |pro|
+    %li
+      - name = pro.name
+      %a{href:'/projects/'+name}= name

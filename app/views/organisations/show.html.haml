@@ -2,10 +2,15 @@
   = @org.name
   %em= " - Organisation"
 
+%p= "Member of this Organisation: #{@members.size}"
+
 %p= @org.description
 
 %hr
 
-%button#organisation-add-member{onClick:'organisation_add_member_dialog()'} Add Member to this
-%button#organisation-edit{onClick:'organisation_edit()'} Edit this
-%button#organisation-leave Leave this Organisation
+- if @is_member
+  %button#organisation-add-member{onClick:'organisation_add_member_dialog()'} Add more Member
+  %button#organisation-edit{onClick:'organisation_edit()'} Edit
+  %button#organisation-leave{onClick:'organisation_leave()'} Leave
+- else 
+  %button#organisation-join{onclick:'organisation_join();'} Join this Organisation!

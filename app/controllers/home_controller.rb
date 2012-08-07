@@ -12,4 +12,15 @@ class HomeController < ApplicationController
     end
   end
 
+  def search
+    query = params[:query]
+
+    @org_results = Organisation.search query
+    @proj_results = Project.search query
+
+    respond_to do |format|
+      format.html{render layout: false} # index.html.erb
+    end
+  end
+
 end

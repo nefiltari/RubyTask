@@ -11,3 +11,13 @@ function organisation_edit() {
   var loc = window.location;
   window.location = loc + "/edit";
 }
+
+function organisation_join() {
+  var loc = window.location;
+  window.location = loc + "/join";
+}
+
+function organisation_leave() {
+  var loc = window.location;
+  window.location = loc + "/leave";
+}
