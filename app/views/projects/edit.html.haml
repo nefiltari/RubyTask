@@ -1,7 +1,15 @@
-%h1 Editing project
+%h3 
+  Edit Project: 
+  %b= @project_name
+%h5
+  %em
+    of Organisation: 
+    = @org_name
 
-= render 'form'
+%form{action: "/projects/#{@project_id}/edit_do", method:"post"}
 
-= link_to 'Show', @project
-\|
-= link_to 'Back', projects_path
+  %textarea{name:'description',rows:5, cols:50}= @project_description
+  %br
+  %input{type:'hidden',name:'id',value:@project_id}
+  %a.my-a-button{href:"/projects/#{URI.escape(@project_id)}"} cancel
+  %input{type:'submit', value:'submit'}

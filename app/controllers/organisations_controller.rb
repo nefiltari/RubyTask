@@ -39,7 +39,7 @@ class OrganisationsController < ApplicationController
     @name = @org.name
     @org_id = @org.get_id
     @projects = @org.projects
-    fail @projects.inspect
+    
     respond_to do |format|
       format.html # show.html.erb
     end
