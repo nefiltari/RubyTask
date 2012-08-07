@@ -63,8 +63,9 @@ RubyTask::Application.routes.draw do
   post "/home/search" => "home#search"
 
   # project routes
-  get "/organisations/:organisation_id/projects/new" => "projects#new"
+  get "/projects/:organisation_id/new" => "projects#new"
   post "/projects/:organisation_id/create" => "projects#create"
+  get "/projects/:organisation_id/:project_id" => "projects#show"
 
   # organisation routes
   get "/organisations/new" => "organisations#new"

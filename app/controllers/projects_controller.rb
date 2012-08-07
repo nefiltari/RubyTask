@@ -1,11 +1,13 @@
 class ProjectsController < ApplicationController
 
+  before_filter :login
+
   # GET /projects/:organisation_id/:project_id
   def show
     @org = Organisation.as name: params[:organisation_id]
     @name = @org.name
     @project = Project.as name: params[:project_id], organisation: @org
-
+    fail @project.name
     respond_to do |format|
       format.html # show.html.erb
     end
