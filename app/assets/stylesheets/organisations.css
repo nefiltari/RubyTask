@@ -1,5 +1,5 @@
 #sidebar {float: left; width: 200px; margin-top: 20px;}
-#contentbar {float: left; width: 600px; margin-left: 20px;}
+#contentbar {float: left; width: 500px; margin-left: 20px;}
 .clearbar{ clear: both;}
 
 #sidebar .ui-widget-header {padding: 5px;}

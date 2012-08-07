@@ -1,3 +1,4 @@
 %p Your Friends on Facebook: 
 - @friends.each do |f|
-  %p= f.realname
+  %p
+    %a{href:"/invite/#{f.get_id}/organisation/#{@org_id}"}= "add #{f.realname}"

@@ -63,7 +63,7 @@ RubyTask::Application.routes.draw do
   get "/organisations/new" => "organisations#new"
   post "/organisations/create" => "organisations#create"
   get "/organisations/dialog" => "organisations#dialog"
-  get "/organisations/dialog_add_member" => "organisations#dialog_add_member"
+  get "/organisations/:id/dialog_add_member" => "organisations#dialog_add_member"
   match "/organisations/:id/edit" => "organisations#edit", as: :organisation_edit
   match "/organisations/:id/join" => "organisations#join"
   match "/organisations/:id/leave" => "organisations#leave"

@@ -102,7 +102,7 @@ class OrganisationsController < ApplicationController
   def dialog_add_member
     @friends = @user.friends
     require 'pp'
-    pp @friends
+    @org_id = params[:id]
     render partial: '/organisations/dialog_add_member', layout: false
   end
 
