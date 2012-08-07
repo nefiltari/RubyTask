@@ -14,8 +14,8 @@ class Organisation
   def projects
     uri = self.uri
     query = Ruta::Sparql.select.where(
-      [:project, RDF.type, Ruta::Class.project]
-      [:project, Ruta::Property.belongs_to, uri],
+      [:project, RDF.type, Ruta::Class.project],
+      [:project, Ruta::Property.belongs_to, uri]
     )
     projects = []
     query.each_solution { |sol| projects.push(sol.project.as(Project)) }
