@@ -14,6 +14,7 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
   Right = RDF::Vocabulary.new("#{Instance}right/")
   Role = RDF::Vocabulary.new("#{Instance}role/")
   Repo = Spira.repository :default
+  Sparql = SPARQL::Client.new(Repo.url.to_s)
   
   module Global
     class << self
