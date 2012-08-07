@@ -13,7 +13,7 @@ class Member
 
   # Gibt alle vergebenen Task, der der Nutzer selbst erstellt hat aus.
   def own_tasks
-    uri = uri.self
+    uri = self.uri
     query = RDF::Query.new do
       pattern [:task, RDF.type, Ruta::Class.task]
       pattern [:task, Ruta::Property.has_creator, uri]
@@ -25,7 +25,7 @@ class Member
 
   # Gibt alle diesem Nutzer zugewiesenen Tasks aus.
   def work_tasks
-    uri = uri.self
+    uri = self.uri
     query = RDF::Query.new do
       pattern [:task, RDF.type, Ruta::Class.task]
       pattern [:task, Ruta::Property.has_worker, uri]
@@ -37,7 +37,7 @@ class Member
 
   # Gibt alle Organisationen aus, in denen der Nutzer ein Mitglied ist.
   def organisations
-    uri = uri.self
+    uri = self.uri
     query = RDF::Query.new do
       pattern [:org, RDF.type, Ruta::Class.organisation]
       pattern [:org, Ruta::Property.has_member, :mir]
@@ -50,7 +50,7 @@ class Member
 
   # Gibt alle Projekte aus, in denen der Nutzer ein Mitglied ist.
   def projects
-    uri = uri.self
+    uri = self.uri
     query = RDF::Query.new do
       pattern [:proj, RDF.type, Ruta::Class.project]
       pattern [:proj, Ruta::Property.has_member, :mir]
