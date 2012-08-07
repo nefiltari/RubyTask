@@ -1,17 +1,22 @@
-%h3
-  = @org.name
-  %em= " - Organisation"
+= render partial: "organisations/sidebar"
 
-%p= "Member of this Organisation: #{@members.size}"
+#contentbar
+  %h3
+    = @name
+    %em= " - Organisation"
 
-%p
-  %em= @org.description
+  %p= "Member of this Organisation: #{@members.size}"
 
-%hr
+  %p
+    %em= @org.description
 
-- if @is_member
-  %button#organisation-add-member{onClick:'organisation_add_member_dialog()'} Add more Member
-  %button#organisation-edit{onClick:'organisation_edit()'} Edit
-  %button#organisation-leave{onClick:'organisation_leave()'} Leave
-- else 
-  %button#organisation-join{onclick:'organisation_join();'} Join this Organisation!
+  %hr
+
+  - if @is_member
+    %button#organisation-add-member{onClick:'organisation_add_member_dialog()'} Add more Member
+    %button#organisation-edit{onClick:'organisation_edit()'} Edit
+    %button#organisation-leave{onClick:'organisation_leave()'} Leave
+  - else 
+    %button#organisation-join{onclick:'organisation_join();'} Join this Organisation!
+
+.clearbar
