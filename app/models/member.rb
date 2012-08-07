@@ -10,7 +10,18 @@ class Member
   property :created_at, predicate: Ruta::Property.created_at, type: RDF::XSD.dateTime
   property :realname, predicate: Ruta::Property.has_real_name, type: RDF::XSD.string
   property :avatar, predicate: Ruta::Property.has_avatar, type: Spira::Types::URI
-  has_many :friends, predicate: Ruta::Property.has_friends, type: :Member
+  has_many :friends, predicate: Ruta::Property.has_friend, type: :Member
+
+  def friends_formatted
+    uri = self.uri
+    query = Ruta::Sparql.select.where(
+      [uri, Ruta::Property.has_friend, :friend],
+      [:friend, Ruta::Property.has_real_name, :realname]
+    )
+    nfriends = []
+    query.each_solution { |sol| nfriends.push({id: sol.friend.as(Member).get_id, realname: sol.realname.to_s}) }
+    nfriends
+  end
 
   # Gibt alle vergebenen Task, der der Nutzer selbst erstellt hat aus.
   def own_tasks

@@ -29,11 +29,9 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
         [:model, RDF.type, Ruta::Class[cl.to_s.downcase]],
         [:model, (cl == Member) ? Ruta::Property.has_real_name : Ruta::Property.has_name, :name]
       )
-      pp query
       results = []
       query.each_solution do |s|
         mname = s.name.to_s
-        puts mname
         if (mname =~ /#{token}/i)
           results.push(s.model.as(self))
         end
