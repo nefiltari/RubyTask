@@ -13,7 +13,6 @@ class HomeController < ApplicationController
   end
 
   def invite
-    friend = Member.as name: params[:id]
     group = nil
     if params[:type] == "project"
       group = Project.as name: params[:name]
@@ -21,21 +20,20 @@ class HomeController < ApplicationController
       group = Organisation.as name: params[:name]
     end
 
-    require 'httmultiparty'
-
-    #class
+    require 'net/http/post/multipart'
+    require 'mime/types'
+    require 'net/https'
 
     val = {
       access_token: session[:access_token].to_s,
-      message: "You are invited to the following #{params[:type].capitalize}.",
-      link: (params[:type] == "project") ? "" : "http://lvh.me:3000/#{params[:type]}/#{params[:name]}",
+      message: "You are invited to the following #{params[:type].capitalize} via RubyTask.",
+      link: (params[:type] == "project") ? "" : "http://lvh.me:3000/#{params[:type]}s/#{params[:name]}",
       name: group.name,
+      caption: "rubytask.org"
       description: group.description
     }
 
-    pp val
-
-    url = URI.parse("https://graph.facebook.com/feed")
+    url = URI.parse("https://graph.facebook.com/#{params[:id]}/feed")
 
     req = Net::HTTP::Post::Multipart.new "#{url.path}?#{val.to_query}", "file" => nil
     n = Net::HTTP.new(url.host, url.port)
