@@ -29,7 +29,7 @@ class HomeController < ApplicationController
       message: "You are invited to the following #{params[:type].capitalize} via RubyTask.",
       link: (params[:type] == "project") ? "" : "http://lvh.me:3000/#{params[:type]}s/#{params[:name]}",
       name: group.name,
-      caption: "rubytask.org"
+      caption: "rubytask.org",
       description: group.description
     }
 
@@ -42,6 +42,8 @@ class HomeController < ApplicationController
     n.start do |http|
       http.request(req)
     end
+
+    redirect_to organisation_view_path(params[:name])
   end
 
   def search
