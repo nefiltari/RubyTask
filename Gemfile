@@ -11,6 +11,7 @@ gem 'rdf'
 #gem 'rdf-xml'
 gem 'rdf-sesame'
 gem 'spira'
+gem 'sparql-client'
 
 # rails tweaks
 gem 'pry'

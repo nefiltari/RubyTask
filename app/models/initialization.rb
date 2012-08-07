@@ -29,7 +29,8 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
       end
       results = []
       query.execute(Ruta::Repo).each do |s|
-        if (s.model.as(self).name =~ /#{token}/i)
+        mname = (self == Member) ? s.model.as(self).realname : s.model.as(self).name
+        if (mname =~ /#{token}/i)
           results.push(s.model.as(self))
         end
       end
@@ -53,6 +54,12 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
 
     Global.org.save!
     Global.proj.save!
+
+    # Roles
+    admin = Role.create name: "Administrator"
+    right = Right.create name: "All"
+    admin.rights.add right
+    admin.save!
   end
 end
 
