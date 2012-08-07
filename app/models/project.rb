@@ -90,7 +90,7 @@ class Project
         proj.members = proj.members.delete(o) if o.uri == s.mir
       end
       proj.save!
-      s.mir.as(MemberInRole).destroy!
+      #s.mir.as(MemberInRole).destroy!
     end
   end
 
