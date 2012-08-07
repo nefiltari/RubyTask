@@ -7,9 +7,21 @@
 
   %p
     %em= @project.description
+  
+  %hr 
 
   %p
     %em 
       Member: 
-      = @project.members.map{|m| m.realname}.join(", ")
-  %p Some Buttons here...
+      = @project.members.map{|m| m.member.realname}.join(", ")
+  
+  %hr
+
+  %p 
+    - if @is_member && @is_member_org
+      %button{onClick:"projects_new_task()"} Create Task
+      %button{onClick:"projects_edit()"} Edit
+      %button{onClick:"projects_leave()"} Leave
+      %button{onClick:"projects_invite()"} Invite People
+    - elsif @is_member_org
+      %button{onClick:"projects_join()"} Join

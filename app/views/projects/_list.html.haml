@@ -1,4 +1,4 @@
 %ul
   - @projects.each do |pro|
     %li
-      %a{href:"/projects/#{@org_id}/#{pro.get_id}"}= pro.name
+      %a{href:"/projects/#{pro.get_id}"}= pro.name

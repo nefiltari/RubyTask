@@ -65,7 +65,12 @@ RubyTask::Application.routes.draw do
   # project routes
   get "/projects/:organisation_id/new" => "projects#new"
   post "/projects/:organisation_id/create" => "projects#create"
-  get "/projects/:organisation_id/:project_id" => "projects#show"
+  get "/projects/:organisation_id/:project_id/leave" => "projects#leave"
+  get "/projects/:organisation_id/:project_id/join" => "projects#join"
+  get "/projects/:organisation_id/:project_id/edit" => "projects#edit"
+  get "/projects/:organisation_id/:project_id/dialog_add_member" => "projects#dialog_add_member"
+  post "/projects/:organisation_id/:project_id/edit_do" => "projects#edit_do"
+  get "/projects/:organisation_id/:project_id" => "projects#show", as: :project_view
 
   # organisation routes
   get "/organisations/new" => "organisations#new"
