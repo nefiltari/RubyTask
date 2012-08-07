@@ -90,4 +90,15 @@ class ProjectsController < ApplicationController
 
     render partial: '/projects/dialog_add_member', layout: false
   end
+
+  def add_member
+    @org = Organisation.as name: params[:organisation_id]
+    @project = Project.create name: params[:project_id], organisation: @org
+    @member_id = params[:member_id]
+    @member = Member.as name: @member_id
+
+    @project.add_member @member, Ruta::Role.administrator
+
+    render :nothing => true
+  end
 end
