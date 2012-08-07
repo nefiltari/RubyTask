@@ -88,6 +88,13 @@ RubyTask::Application.routes.draw do
   get "/tasks/:organisation/:project/new" => "tasks#new"
   post "/tasks/:organisation/:project/create" => "tasks#create"
   get "/tasks/:organisation/:project/new/dialog_add_member" => "tasks#dialog_add_member"
+  get "/tasks/:organisation/:project/:task/:owner/:target/complete" => "tasks#complete"
+  get "/tasks/:organisation/:project/:task/:owner/complete" => "tasks#complete"
+  get "/tasks/:organisation/:project/:task/:owner/:target" => "tasks#show"
+  get "/tasks/:organisation/:project/:task/:owner" => "tasks#show"
+  
+
+
 
   match "/auth/:provider/callback" => "sessions#create"
   match "/auth/failure" => "sessions#failure"

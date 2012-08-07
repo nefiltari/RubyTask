@@ -1,6 +1,16 @@
-%p#notice= notice
-
-
-= link_to 'Edit', edit_task_path(@task)
-\|
-= link_to 'Back', tasks_path
+%h3
+  = @task.name
+  %em= " - Task"
+%p
+  %em= @task.description
+%p
+  Status:
+  = @task.status.capitalize
+%p
+  Priority:
+  = @priority
+%hr
+  - if @is_member_project
+    %button#task-edit{onClick:'task_edit()'} Edit
+  - if @is_worker
+    %button#tasks-complete{onclick:'task_complete()'} Complete!

@@ -16,6 +16,14 @@ class Task
   property :project, predicate: Ruta::Property.belongs_to, type: :Project
   has_many :workers, predicate: Ruta::Property.has_worker, type: :Member
 
+  def is_worker? member
+    uri = self.uri
+    query = Ruta::Sparql.select.where(
+      [uri, Ruta::Property.has_worker, member.uri]
+    )
+    query.each_statement.count >= 1
+  end
+
   def tasksteps
     uri = self.uri
     query = Ruta::Sparql.select.where(

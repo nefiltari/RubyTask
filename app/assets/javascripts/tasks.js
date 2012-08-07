@@ -6,3 +6,8 @@ function task_add_member_dialog() {
     div.html(data);
   });
 }
+
+function task_complete() {
+  loc = window.location
+  window.location = loc + "/complete"
+}

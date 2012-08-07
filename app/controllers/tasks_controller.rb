@@ -16,6 +16,21 @@ class TasksController < ApplicationController
   # GET /tasks/1.json
   def show
     @task = Task.as name: params[:id]
+    proj = Project.as name: params[:project]
+    @is_member_project = proj.exist_member?(@user)
+    @is_worker = @task.is_worker? @user
+    @priority = case @task.priority
+      when 1
+        "unimportant"
+      when 2
+        "less important"
+      when 3
+        "normal"
+      when 4
+        "important"
+      when 5
+        "very important"
+    end   
   end
 
   # GET /tasks/new
@@ -63,6 +78,12 @@ class TasksController < ApplicationController
     redirect_to project_view_path(params[:project])
   end
 
+  def complete
+    task = Task.as name: params[:task], project: params[:proj], owner: params[:owner], target: params[:target]
+    task.status = "complete"
+    task.save!
+  end
+
   # PUT /tasks/1
   # PUT /tasks/1.json
   def update
@@ -72,12 +93,5 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   # DELETE /tasks/1.json
   def destroy
-    @task = Task.find(params[:id])
-    @task.destroy
-
-    respond_to do |format|
-      format.html { redirect_to tasks_url }
-      format.json { head :no_content }
-    end
   end
 end
