@@ -6,7 +6,7 @@
   - @org_results.each do |org|
     %li
       - name = org.name
-      %a{href:'/organisations/'+name}= name
+      %a{href:'/organisations/'+org.get_id}= name
 
 %h4
   found Projects(
@@ -16,4 +16,4 @@
   - @proj_results.each do |pro|
     %li
       - name = pro.name
-      %a{href:'/projects/'+name}= name
+      %a{href:'/projects/'+proj.get_id}= name

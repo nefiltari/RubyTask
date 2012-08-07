@@ -19,7 +19,10 @@
   border: 1px solid orange;
   font-size: 0.8em;
   font-weight: normal;
-  padding: 30px;
+  padding-left: 40px;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   min-height: 700px;
 
   -moz-box-shadow: 5px 5px 10px #555;

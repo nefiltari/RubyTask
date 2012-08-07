@@ -53,6 +53,8 @@ class OrganisationsController < ApplicationController
     @org = Organisation.as name: params[:id]
     @members = @org.members
     @is_member = @org.exist_member? @user
+    @name = @org.name
+    @org_id = @org.get_id
 
     respond_to do |format|
       format.html # show.html.erb
