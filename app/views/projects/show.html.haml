@@ -1,6 +1,15 @@
-%p#notice= notice
+= render partial: "organisations/sidebar"
 
+#contentbar
+  %h2 
+    Project: 
+    = @project.name
 
-= link_to 'Edit', edit_project_path(@project)
-\|
-= link_to 'Back', projects_path
+  %p
+    %em= @project.description
+
+  %p
+    %em 
+      Member: 
+      = @project.members.map{|m| m.realname}.join(", ")
+  %p Some Buttons here...

@@ -58,8 +58,16 @@ RubyTask::Application.routes.draw do
 
   resources :home
 
+  # general routes
   get "/login" => "sessions#new", as: :login
   post "/home/search" => "home#search"
+
+  # project routes
+  get "/projects/:organisation_id/new" => "projects#new"
+  post "/projects/:organisation_id/create" => "projects#create"
+  get "/projects/:organisation_id/:project_id" => "projects#show"
+
+  # organisation routes
   get "/organisations/new" => "organisations#new"
   post "/organisations/create" => "organisations#create"
   get "/organisations/dialog" => "organisations#dialog"

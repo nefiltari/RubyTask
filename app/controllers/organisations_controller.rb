@@ -6,24 +6,7 @@ class OrganisationsController < ApplicationController
   
   # GET /organisations
   def index
-    @user = "Herp"
-
-    require 'ostruct'    
-    a1 = OpenStruct.new
-    a1.sender = "Derpina"
-    a1.receiver = "Herp"
-    a1.action = "created a new Task"
-
-    a2 = OpenStruct.new
-    a2.sender = "Herp"
-    a2.receiver = "Derpina"
-    a2.action = "wrote a message"
-
-    @last_activities = [a1, a2]
-
-    respond_to do |format|
-      format.html # index.html.erb
-    end
+    # empty
   end
 
   def new
@@ -55,7 +38,8 @@ class OrganisationsController < ApplicationController
     @is_member = @org.exist_member? @user
     @name = @org.name
     @org_id = @org.get_id
-
+    @projects = @org.projects
+    fail @projects.inspect
     respond_to do |format|
       format.html # show.html.erb
     end

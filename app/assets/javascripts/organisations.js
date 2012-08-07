@@ -22,3 +22,8 @@ function organisation_leave() {
   var loc = window.location;
   window.location = loc + "/leave";
 }
+
+function organisation_add_project() {
+  var org = window.location.toString().split("/").pop();
+  window.location = "/projects/"+org+"/new";
+}
