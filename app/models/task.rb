@@ -55,6 +55,7 @@ class Task
     task.creator = params[:owner] if params[:owner].class == Member
     task.workers = [params[:target]] if params[:target].class == Member
     task.project = params[:project]
+    task.status = "new"
     task.save!
     task
   end

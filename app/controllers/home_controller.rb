@@ -12,13 +12,8 @@ class HomeController < ApplicationController
   def invite
     friend = Member.as name: params[:id]
 
-
     group = nil
-    if params[:type] == "project"
-      group = Project.as name: params[:name]
-    else
-      group = Organisation.as name: params[:name]
-    end
+    group = Organisation.as name: params[:name]
 
     group.add_member friend, Ruta::Role.administrator
 

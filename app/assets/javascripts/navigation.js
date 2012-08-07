@@ -30,6 +30,7 @@ $(document).ready(function() {
   $('button').button();
   $('.my-a-button').button();
   $('input[type="submit"]').button();
+  $('#tasks-add-member').button();
 });
 
 function navigation_dialogs_init() {
@@ -80,7 +81,7 @@ function navigation_dialogs_init() {
   });
   $('#dialog-tmp-confirm').dialog({
     autoOpen: false,
-    height: 700,
+    height: 500,
     width: 600,
     modal: true,
     show: "clip",
@@ -88,9 +89,15 @@ function navigation_dialogs_init() {
     title: "Member",
     buttons: {
       "Save": function() {
+        member = new Array()
+        $("#member-list").empty();
         $("#project-member-list :checkbox").filter(":checked").each(function(index) {
-          $("#member-list").append("<li>" + $(this).next().text() + "</li>")
+          $("#member-list").append("<li>" + $(this).parent().text() + "</li>");
+          member.push($(this).val());
         });
+        alert(member);
+        $("#member-list").append('<input name="workers" type="hidden" value="' + member.join(',') + '" />');
+        $('#dialog-tmp-confirm').dialog("close");
       }
     }
   });

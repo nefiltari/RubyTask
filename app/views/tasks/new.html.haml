@@ -1,10 +1,37 @@
 %h2 Create a new Task
 
-%form{action: "/tasks/create", method: "post"}
+%form{action: "/tasks/#{params[:organisation]}/#{params[:project]}/create", method: "post"}
   %p
     Enter Name:
     %input{name: "name"}
+  %p
+    Description:
+    %br
+    %textarea#tasks-new-description{name:'description',rows:5, cols:70}
+  %p
+    Set a priority:
+    %br
+    %input{type: "radio", name: "priority", value: "1", selected: "selected"}
+    1&nbsp;&nbsp;
+    %input{type: "radio", name: "priority", value: "2"}
+    2&nbsp;&nbsp;
+    %input{type: "radio", name: "priority", value: "3"}
+    3&nbsp;&nbsp;
+    %input{type: "radio", name: "priority", value: "4"}
+    4&nbsp;&nbsp;
+    %input{type: "radio", name: "priority", value: "4"}
+    5&nbsp;&nbsp;
   %p 
     Add workers to this Task:
-    %input{type: "button"}
+    %input#tasks-add-member{type: "button", value: "Add Workers", onClick: 'task_add_member_dialog()'}
   %ul#member-list
+
+  %p 
+    Is this Task for everyone..:
+    %br
+    %input{type: "radio", name: "all", value: "yes", selected: "selected"}
+    for everyone
+    %input{type: "radio", name: "all", value: "no"}
+    single
+  
+  %input{type: "submit"}

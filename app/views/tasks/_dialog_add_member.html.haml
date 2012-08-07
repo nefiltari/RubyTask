@@ -1,6 +1,6 @@
-%p All Member of this Organisation
+%h2="All Member of the Organisation: #{@org.name}"
 %ul#project-member-list
   - @members.each do |m|
     %li
-      %input{type: "checkbox"}
-      %p=m.realname
+      %input{type: "checkbox", value: "#{m.member.name}"}
+      = m.member.realname
