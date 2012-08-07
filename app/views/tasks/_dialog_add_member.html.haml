@@ -1,0 +1,6 @@
+%p All Member of this Organisation
+%ul#project-member-list
+  - @members.each do |m|
+    %li
+      %input{type: "checkbox"}
+      %p=m.realname

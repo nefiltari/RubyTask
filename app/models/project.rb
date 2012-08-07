@@ -113,7 +113,7 @@ class Project
     if params[:name].class == Project
       params[:name].get_id
     else
-      return nil unless (org_id = Organisation.get_id(params[:organisation]))
+      return nil unless (org_id = Organisation.get_id({name: params[:organisation]}))
       proj_id = params[:name].downcase.gsub(/\s+/,"_")
       "#{org_id}/#{proj_id}"
     end

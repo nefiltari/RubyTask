@@ -78,6 +78,22 @@ function navigation_dialogs_init() {
     hide: "clip",
     title: "RubyTask asks..."
   });
+  $('#dialog-tmp-confirm').dialog({
+    autoOpen: false,
+    height: 700,
+    width: 600,
+    modal: true,
+    show: "clip",
+    hide: "clip",
+    title: "Member",
+    buttons: {
+      "Save": function() {
+        $("#project-member-list :checkbox").filter(":checked").each(function(index) {
+          $("#member-list").append("<li>" + $(this).next().text() + "</li>")
+        });
+      }
+    }
+  });
 }
 
 function navigation_dialog_organisations_open() {

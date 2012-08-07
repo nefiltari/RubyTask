@@ -1,4 +1,6 @@
 class TasksController < ApplicationController
+  before_filter :login
+
   # GET /tasks
   # GET /tasks.json
   def index
@@ -27,8 +29,11 @@ class TasksController < ApplicationController
   def new
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @task }
     end
+  end
+
+  def dialog_add_member
+
   end
 
   # GET /tasks/1/edit

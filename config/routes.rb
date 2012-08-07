@@ -78,6 +78,10 @@ RubyTask::Application.routes.draw do
   match "/organisations/:id" => "organisations#show", as: :organisation_view
   get "/invite/:id/:type/:name" => "home#invite"
 
+  # Tasks
+  get "/tasks/:organisation/:project/new" => "tasks#new"
+  post "/tasks/:project/tasks/create" => "tasks#create"
+
   match "/auth/:provider/callback" => "sessions#create"
   match "/auth/failure" => "sessions#failure"
 

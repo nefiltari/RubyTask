@@ -37,7 +37,7 @@ class Task
     if params[:name].class == Task
       params[:name].get_id
     else
-      return nil unless (project_id = Project.get_id(params[:project])) && (owner_id = Member.get_id(params[:owner]))
+      return nil unless (project_id = Project.get_id({name: params[:project]})) && (owner_id = Member.get_id({name: params[:owner]}))
       task_id = params[:name].downcase.gsub(/\s+/,"_")
       target_id = (params[:target].class == Member) ? "/#{params[:target].get_id}" : ""
       "#{project_id}/#{owner_id}/#{task_id}#{target_id}"
