@@ -21,16 +21,29 @@ class HomeController < ApplicationController
       group = Organisation.as name: params[:name]
     end
 
-    require 'net/http'
-    uri = URI('https://graph.facebook.com/#{params[:id]}/feed')
-    res = Net::HTTP.post_form(
-      uri, 
-      'access_token' => session[:access_token].to_s, 
-      'message' => "You are invited to the following #{params[:type].capitalize}.",
-      'link' => (params[:type] == "project") ? "" : organisation_view_url(params[:name]),
-      'name' => group.name,
-      'description' => group.description
-    )
+    require 'httmultiparty'
+
+    #class
+
+    val = {
+      access_token: session[:access_token].to_s,
+      message: "You are invited to the following #{params[:type].capitalize}.",
+      link: (params[:type] == "project") ? "" : "http://lvh.me:3000/#{params[:type]}/#{params[:name]}",
+      name: group.name,
+      description: group.description
+    }
+
+    pp val
+
+    url = URI.parse("https://graph.facebook.com/feed")
+
+    req = Net::HTTP::Post::Multipart.new "#{url.path}?#{val.to_query}", "file" => nil
+    n = Net::HTTP.new(url.host, url.port)
+    n.use_ssl = true
+    n.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    n.start do |http|
+      http.request(req)
+    end
   end
 
   def search

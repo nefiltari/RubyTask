@@ -22,6 +22,11 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'fb_graph'
 
+# HTTP
+gem 'httparty'
+gem 'multipart-post'
+gem 'httmultiparty'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 

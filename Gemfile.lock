@@ -57,6 +57,9 @@ GEM
       railties (~> 3.0)
     hashie (1.2.0)
     hike (1.2.1)
+    httmultiparty (0.3.8)
+      httparty (>= 0.7.3)
+      multipart-post
     httparty (0.8.3)
       multi_json (~> 1.0)
       multi_xml
@@ -186,9 +189,12 @@ DEPENDENCIES
   fb_graph
   haml
   haml-rails
+  httmultiparty
+  httparty
   jquery-rails
   jquery-ui-rails
   jquery-ui-themes
+  multipart-post
   omniauth
   omniauth-facebook
   pry

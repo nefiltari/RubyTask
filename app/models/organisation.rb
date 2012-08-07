@@ -65,7 +65,7 @@ class Organisation
         org.members = org.members.delete(o) if o.uri == s.mir
       end
       org.save!
-      s.mir.as(MemberInRole).destroy!
+      #s.mir.as(MemberInRole).destroy!
     end
   end
 
