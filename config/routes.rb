@@ -70,6 +70,7 @@ RubyTask::Application.routes.draw do
   get "/projects/:organisation_id/:project_id/edit" => "projects#edit"
   get "/projects/:organisation_id/:project_id/dialog_add_member" => "projects#dialog_add_member"
   post "/projects/:organisation_id/:project_id/edit_do" => "projects#edit_do"
+  post "/projects/:organisation_id/:project_id/add_member" => "projects#add_member"
   get "/projects/:organisation_id/:project_id" => "projects#show", as: :project_view
 
   # organisation routes

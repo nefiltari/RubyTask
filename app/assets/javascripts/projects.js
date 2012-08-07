@@ -19,7 +19,7 @@ function projects_invite() {
   var loc = window.location.toString().split("/");
   var proj = loc.pop();
   var org = loc.pop();
-  var div = $('#dialog-tmp-small');
+  var div = $('#dialog-tmp-medium');
   div.html("loading member ...");
   div.dialog("open");
   $.get("/projects/"+org+"/"+proj+"/dialog_add_member", function(data) {
@@ -27,6 +27,11 @@ function projects_invite() {
   })
 }
 
-function projects_add_member_with_id(id) {
+function projects_remove_member_with_id(id) {
+  var loc = window.location.toString().split("/");
+  var proj = loc.pop();
+  var org = loc.pop();
   var tr = $('tr[member_id='+id+']');
+  $.post("/projects/"+org+"/"+proj+"/add_member");
+  tr.remove(); //fuck off animations, motivation gone...
 }

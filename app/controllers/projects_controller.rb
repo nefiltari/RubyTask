@@ -90,4 +90,8 @@ class ProjectsController < ApplicationController
 
     render partial: '/projects/dialog_add_member', layout: false
   end
+
+  def add_member
+    ""
+  end
 end
