@@ -14,10 +14,22 @@ class HomeController < ApplicationController
 
   def invite
     friend = Member.as name: params[:id]
+    group = nil
     if params[:type] == "project"
+      group = Project.as name: params[:name]
+    else
+      group = Organisation.as name: params[:name]
+    end
 
     require 'net/http'
     uri = URI('https://graph.facebook.com/#{params[:id]}/feed')
-    res = Net::HTTP.post_form(uri, 'access_token' => session[:access_token].to_s, 'message' => "You are invited to the following #{params[:type].capitalize}.")
-
+    res = Net::HTTP.post_form(
+      uri, 
+      'access_token' => session[:access_token].to_s, 
+      'message' => "You are invited to the following #{params[:type].capitalize}.",
+      'link' => (params[:type] == "project") ? "" : organisation_view_url(params[:name]),
+      'name' => group.name,
+      'description' => group.description
+    )
+  end
 end

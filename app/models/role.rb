@@ -11,9 +11,9 @@ class Role
 
   # Erzeugt eine ID aus einer Rolle
   # role: Name oder Modelinstanz
-  def self.get_id role
+  def self.get_id params
     return nil unless params[:name]
-    return params[:name].get_id if role.params[:name] == Role
+    return params[:name].get_id if params[:name].class == Role
     params[:name].downcase.gsub(/\s+/,"_")
   end
 
