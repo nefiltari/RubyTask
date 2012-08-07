@@ -12,7 +12,7 @@ class MemberInRole
   # Erzeugt eine ID aus einem Recht
   # right: Name oder Modelinstanz
   def self.get_id params
-    return nil unless (member_id = Member.get_id(params[:member])) && (role_id = Role.get_id(params[:role]))
+    return nil unless (member_id = Member.get_id({name: params[:member]})) && (role_id = Role.get_id({name: params[:role]}))
     "#{role_id}/#{member_id}"
   end
 

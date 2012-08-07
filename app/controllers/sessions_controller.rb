@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
   def create
     auth_hash = request.env['omniauth.auth']
     session[:user] = auth_hash[:uid]
+    session[:access_token] = auth_hash[:credentials][:token]
 
     member = nil
     if Member.exist? name: auth_hash[:uid]
