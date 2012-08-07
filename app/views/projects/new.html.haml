@@ -1,5 +1,17 @@
-%h1 New project
+%h2 Create new Project
+%h5
+  %em= "for Organisation: #{@org_name}"
 
-= render 'form'
+%form{action:"/projects/#{@org_id}/create", method:"post"}
 
-= link_to 'Back', projects_path
+  %p
+    Enter a title: 
+    %input{name:"title"}
+
+  %p
+    Describe this Project: 
+    %br
+    %textarea{rows:5, cols:70, name:"description"}
+
+  %p
+    %input{type:"submit"}
