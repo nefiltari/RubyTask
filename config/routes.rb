@@ -73,7 +73,8 @@ RubyTask::Application.routes.draw do
 
   # Tasks
   get "/tasks/:organisation/:project/new" => "tasks#new"
-  post "/tasks/:project/tasks/create" => "tasks#create"
+  post "/tasks/:organisation/:project/create" => "tasks#create"
+  get "/tasks/:organisation/:project/new/dialog_add_member" => "tasks#dialog_add_member"
 
   match "/auth/:provider/callback" => "sessions#create"
   match "/auth/failure" => "sessions#failure"

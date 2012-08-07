@@ -33,7 +33,7 @@ class TasksController < ApplicationController
   end
 
   def dialog_add_member
-
+    @members = Organisation.as name: params[:organisation]
   end
 
   # GET /tasks/1/edit
@@ -44,17 +44,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = Task.new(params[:task])
-
-    respond_to do |format|
-      if @task.save
-        format.html { redirect_to @task, notice: 'Task was successfully created.' }
-        format.json { render json: @task, status: :created, location: @task }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
-      end
-    end
+    pp params[:zutat]
   end
 
   # PUT /tasks/1
