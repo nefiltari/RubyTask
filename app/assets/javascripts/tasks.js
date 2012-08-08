@@ -11,3 +11,13 @@ function task_complete() {
   loc = window.location
   window.location = loc + "/complete"
 }
+
+function task_edit() {
+  loc = window.location
+  window.location = loc + "/edit"
+}
+
+function task_remove() {
+  loc = window.location
+  window.location = loc + "/destroy"
+}

@@ -1,6 +1,18 @@
-%h2="All Member of the Organisation: #{@org.name}"
+%h2="All Member of the Project: #{@proj.name}"
 %ul#project-member-list
   - @members.each do |m|
     %li
-      %input{type: "checkbox", value: "#{m.member.name}"}
-      = m.member.realname
+      - if (params[:target])
+        - if (@task.is_worker? m.member)
+          %input{type: "radio", value: "#{m.member.name}", checked: "checked"}
+          = m.member.realname
+        - else
+          %input{type: "radio", value: "#{m.member.name}"}
+          = m.member.realname
+      - elsif (@task && @task.is_worker?(m.member))
+        %input{type: "checkbox", value: "#{m.member.name}", checked: "checked"}
+        = m.member.realname
+      - else
+        %input{type: "checkbox", value: "#{m.member.name}"}
+        = m.member.realname
+

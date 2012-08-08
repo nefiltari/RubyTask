@@ -27,3 +27,9 @@ function organisation_add_project() {
   var org = window.location.toString().split("/").pop();
   window.location = "/projects/"+org+"/new";
 }
+
+function organisation_create_task() {
+  var loc = window.location.toString().split("/");
+  var id = loc.pop();
+  window.location = "/tasks/" + id + "/<global>/new";
+}

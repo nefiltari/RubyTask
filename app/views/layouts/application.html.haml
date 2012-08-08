@@ -20,7 +20,8 @@
       
       -# all content goes here
       #content-box.ui-corner-all
-        %p= flash[:notice]
+        - if flash[:alert]
+          #div.alert=flash[:alert]
         = yield
       #dialog-organisations.dialog-custom
       = render partial: '/shared/dialog_search'

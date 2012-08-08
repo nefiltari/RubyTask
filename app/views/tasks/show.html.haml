@@ -1,16 +1,25 @@
 %h3
-  = @task.name
-  %em= " - Task"
+  Task: 
+  %em= @task.name
 %p
-  %em= @task.description
+  Description:
+  %p{style: "padding-left:20px;padding-right:40px"}
+    %em= @task.description
+%p
+  Created at:
+  = "#{@task.completed_at.strftime("%d.%m.%Y %H:%M")}"
 %p
   Status:
   = @task.status.capitalize
+  - if (@task.status == "complete")
+    = " (At: #{@task.completed_at.strftime("%d.%m.%Y %H:%M")})"
+
 %p
   Priority:
   = @priority
 %hr
   - if @is_member_project
     %button#task-edit{onClick:'task_edit()'} Edit
-  - if @is_worker
-    %button#tasks-complete{onclick:'task_complete()'} Complete!
+    %button#remove-task{onClick:'task_remove()'} Remove
+  - if (@is_worker && (!@is_completed))
+    %button#tasks-complete{onclick:'task_complete()'} Task done

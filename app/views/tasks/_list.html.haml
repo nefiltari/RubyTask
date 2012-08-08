@@ -1,0 +1,4 @@
+%ul
+  - @tasks.each do |t|
+    %li
+      %a{href:"/tasks/#{t.get_id}"}= t.name

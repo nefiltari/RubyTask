@@ -21,7 +21,7 @@ class Task
     query = Ruta::Sparql.select.where(
       [uri, Ruta::Property.has_worker, member.uri]
     )
-    query.each_statement.count >= 1
+    query.each_solution.count >= 1
   end
 
   def tasksteps
@@ -63,7 +63,8 @@ class Task
     task.creator = params[:owner] if params[:owner].class == Member
     task.workers = [params[:target]] if params[:target].class == Member
     task.project = params[:project]
-    task.status = "new"
+    task.status = "in progress"
+    task.completed_at = DateTime.now
     task.save!
     task
   end

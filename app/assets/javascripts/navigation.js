@@ -12,6 +12,7 @@ $(document).ready(function() {
   //click handler
   $('#navigation-1').click(function() {
     window.location = "/";
+
   });
   $('#navigation-2').click(function() {
     $('#dialog-organisations').dialog("open");
@@ -21,8 +22,13 @@ $(document).ready(function() {
       $('.my-a-button').button();
     })
   });
-  //$('#navigation-3').click(window.location = "/tasks");
+
+  $('#navigation-3').click(function() {
+    window.location = "/mytasks"
+  });
+
   //$('#navigation-4').click(window.location = "/messages");
+  
   $('#navigation-5').click(function () {
     $('#dialog-search').dialog("open")
   })
@@ -92,10 +98,9 @@ function navigation_dialogs_init() {
         member = new Array()
         $("#member-list").empty();
         $("#project-member-list :checkbox").filter(":checked").each(function(index) {
-          $("#member-list").append("<li>" + $(this).parent().text() + "</li>");
+          $("#member-list").append("<li><b>" + $(this).parent().text() + "</b></li>");
           member.push($(this).val());
         });
-        alert(member);
         $("#member-list").append('<input name="workers" type="hidden" value="' + member.join(',') + '" />');
         $('#dialog-tmp-confirm').dialog("close");
       }

@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   end
 
   def user_logged_in?
-    puts session[:user]
     if session[:user]
       @user = Member.as name: session[:user]
     end

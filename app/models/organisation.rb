@@ -11,6 +11,18 @@ class Organisation
   property :created_at, predicate: Ruta::Property.created_at, type: RDF::XSD.dateTime
   has_many :members, predicate: Ruta::Property.has_member, type: :MemberInRole
 
+  def tasks
+    uri = self.uri
+    query = Ruta::Sparql.select.where(
+      [:task, RDF.type, Ruta::Class.task],
+      [:task, Ruta::Property.belongs_to, :project],
+      [:project, Ruta::Property.belongs_to, uri]
+    )
+    tasks = []
+    query.each_solution { |sol| tasks.push(sol.task.as(Task)) }
+    tasks
+  end
+
   def projects
     uri = self.uri
     query = Ruta::Sparql.select.where(

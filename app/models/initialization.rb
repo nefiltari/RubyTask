@@ -101,4 +101,30 @@ class DateTime
   register_alias RDF::XSD.dateTime
 end
 
+require 'uri'
+
+class Encoding
+  def self.encode str
+    URI.encode(str)
+  end
+
+  def self.decode str
+    URI.decode(str)
+  end
+end
+
+class Spira::Types::String
+  include Spira::Type
+    
+  def self.serialize(value)
+    RDF::Literal.new(Encoding.encode(value.to_s))
+  end
+
+  def self.unserialize(value)
+    Encoding.decode(value.object.to_s)
+  end
+
+  register_alias RDF::XSD.string
+end
+
 #Ruta.init

@@ -1,7 +1,55 @@
-%h1 Editing task
+%h2
+  Edit Task:
+  %em= @task.name
 
-= render 'form'
-
-= link_to 'Show', @task
-\|
-= link_to 'Back', tasks_path
+%form{action: "/tasks/#{@task.get_id}/update", method: "post"}
+  %p
+    Description:
+    %br
+    %textarea{name:'description',rows:5, cols:70}= @task.description
+  %p
+    Set a priority (1 = unimportant, 5 = very important):
+    %br
+    %p{style: "padding-left: 10px"}
+      - if @task.priority == 1
+        %input{type: "radio", name: "priority", value: "1", checked: "checked"}
+      - else
+        %input{type: "radio", name: "priority", value: "1"}
+      1&nbsp;&nbsp;
+      - if @task.priority == 2
+        %input{type: "radio", name: "priority", value: "2", checked: "checked"}
+      - else
+        %input{type: "radio", name: "priority", value: "2"}
+      2&nbsp;&nbsp;
+      - if @task.priority == 3
+        %input{type: "radio", name: "priority", value: "3", checked: "checked"}
+      - else
+        %input{type: "radio", name: "priority", value: "3"}
+      3&nbsp;&nbsp;
+      - if @task.priority == 4
+        %input{type: "radio", name: "priority", value: "4", checked: "checked"}
+      - else
+        %input{type: "radio", name: "priority", value: "4"}
+      4&nbsp;&nbsp;
+      - if @task.priority == 5
+        %input{type: "radio", name: "priority", value: "5", checked: "checked"}
+      - else
+        %input{type: "radio", name: "priority", value: "5"}
+      5&nbsp;&nbsp;
+  
+  %p 
+    Add workers to this Task:
+  %input#tasks-add-member{type: "button", value: "Add Workers", onClick: 'task_add_member_dialog()'}
+  
+  %ul#member-list
+    - @task.workers.each do |w|
+      %li
+        %b=w.realname
+    %input{type: "hidden", name: "workers", value: @task.workers.map{|w| w.name}.join(',')}
+  
+  - if params[:target]
+    %p="This task is a shared task."
+  - else
+    %p="This task is only for one Member."
+  
+  %input{type: "submit"}

@@ -37,3 +37,9 @@
   font-size: 0.7em;
   line-height: 2.5em;
 }
+
+.alert {
+  padding: 4px;
+  color: #C00000 ;
+  border: 1px dashed black;
+}

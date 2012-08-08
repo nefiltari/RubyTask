@@ -10,6 +10,7 @@ class ProjectsController < ApplicationController
     @projects = @org.projects
     @is_member = @project.exist_member? @user
     @is_member_org = @org.exist_member? @user
+    @tasks = @org.tasks
 
     respond_to do |format|
       format.html # show.html.erb
@@ -58,17 +59,20 @@ class ProjectsController < ApplicationController
   # POST /organisations/:organisation_id/create
   def create
     @org = Organisation.as name: params[:organisation_id]
-    project = Project.create name: params[:title], organisation: @org
-    project.description = params[:description]
-    project.add_member(@user, Ruta::Role.administrator)
-    project.save!
-
-    redirect_to "/projects/#{project.get_id}"
+    unless Project.exist? name: params[:title], organisation: @org
+      project = Project.create name: params[:title], organisation: @org
+      project.description = params[:description]
+      project.add_member(@user, Ruta::Role.administrator)
+      project.save!
+      redirect_to "/projects/#{project.get_id}"
+      return
+    end
+    redirect_to "/projects/#{params[:organisation_id]}/new", alert: "This Project already exist!"
   end
 
   def leave
     @org = Organisation.as name: params[:organisation_id]
-    project = Project.create name: params[:project_id], organisation: @org
+    project = Project.as name: params[:project_id], organisation: @org
     project.delete_member @user
     project.save!
 

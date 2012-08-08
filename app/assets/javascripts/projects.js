@@ -35,3 +35,10 @@ function projects_add_member_with_id(id) {
   $.post("/projects/"+org+"/"+proj+"/add_member", {member_id: id});
   tr.remove(); //fuck off animations, motivation gone...
 }
+
+function projects_new_task() {
+  var loc = window.location.toString().split("/");
+  var proj = loc.pop();
+  var org = loc.pop();
+  window.location = "/tasks/" + org + "/" + proj + "/new";
+}

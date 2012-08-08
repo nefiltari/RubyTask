@@ -10,14 +10,12 @@ class OrganisationsController < ApplicationController
   end
 
   def new
-
     respond_to do |format|
       format.html # new.html.erb
     end
   end
 
   def create
-
     @params = params
     @o = nil
     unless Organisation.exist? :name => params[:name]
@@ -27,9 +25,10 @@ class OrganisationsController < ApplicationController
       o.save!
       @o = o
       redirect_to "/organisations/#{URI.escape(o.get_id)}"
+      return
     end
 
-    redirect_to "/organisations/new" unless @o
+    redirect_to "/organisations/new", alert: "This Organisation already exist!" unless @o
   end
   
   def show
@@ -38,7 +37,9 @@ class OrganisationsController < ApplicationController
     @is_member = @org.exist_member? @user
     @name = @org.name
     @org_id = @org.get_id
+    
     @projects = @org.projects
+    @tasks = @org.tasks
     
     respond_to do |format|
       format.html # show.html.erb

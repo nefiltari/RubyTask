@@ -86,13 +86,22 @@ RubyTask::Application.routes.draw do
   get "/invite/:id/:type/:name" => "home#invite"
 
   # Tasks
+  get "/mytasks" => "tasks#index"
   get "/tasks/:organisation/:project/new" => "tasks#new"
   post "/tasks/:organisation/:project/create" => "tasks#create"
   get "/tasks/:organisation/:project/new/dialog_add_member" => "tasks#dialog_add_member"
-  get "/tasks/:organisation/:project/:task/:owner/:target/complete" => "tasks#complete"
-  get "/tasks/:organisation/:project/:task/:owner/complete" => "tasks#complete"
-  get "/tasks/:organisation/:project/:task/:owner/:target" => "tasks#show"
-  get "/tasks/:organisation/:project/:task/:owner" => "tasks#show"
+  get "/tasks/:organisation/:project/:owner/:task/:target/edit" => "tasks#edit"
+  get "/tasks/:organisation/:project/:owner/:task/edit" => "tasks#edit"
+  post "/tasks/:organisation/:project/:owner/:task/:target/update" => "tasks#update"
+  post "/tasks/:organisation/:project/:owner/:task/update" => "tasks#update"
+  match "/tasks/:organisation/:project/:owner/:task/:target/destroy" => "tasks#destroy"
+  match "/tasks/:organisation/:project/:owner/:task/destroy" => "tasks#destroy"
+  get "/tasks/:organisation/:project/:owner/:task/:target/edit/dialog_add_member" => "tasks#dialog_add_member"
+  get "/tasks/:organisation/:project/:owner/:task/edit/dialog_add_member" => "tasks#dialog_add_member"
+  get "/tasks/:organisation/:project/:owner/:task/:target/complete" => "tasks#complete"
+  get "/tasks/:organisation/:project/:owner/:task/complete" => "tasks#complete"
+  get "/tasks/:organisation/:project/:owner/:task/:target" => "tasks#show"
+  get "/tasks/:organisation/:project/:owner/:task" => "tasks#show"
   
 
 

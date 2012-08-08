@@ -1,17 +1,21 @@
-%h1 Listing tasks
-
-%table
+%h2 My Tasks
+%table{width: "100%", border: "0", cellpadding: "7px", cellspacing: "0px"}
   %tr
-    %th
-    %th
-    %th
-
-  - @tasks.each do |task|
+    %th Name
+    %th Priority
+    %th Created
+    %th Status
+    %th Completed
+  - @tasks.each do |t|
     %tr
-      %td= link_to 'Show', task
-      %td= link_to 'Edit', edit_task_path(task)
-      %td= link_to 'Destroy', task, :confirm => 'Are you sure?', :method => :delete
+      %td.right-border
+        = link_to t.name, "/tasks/#{t.get_id}"
+      %td.right-border
+        = TasksHelper.priority_names(t.priority)
+      %td.right-border
+        = t.created_at.strftime("%d.%m.%Y %H:%M")
+      %td.right-border
+        = t.status.capitalize
+      %td.right-border
+        = (t.status == "complete") ? t.completed_at.strftime("%d.%m.%Y %H:%M") : ""
 
-%br
-
-= link_to 'New Task', new_task_path
