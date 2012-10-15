@@ -1,3 +1,4 @@
+# Ein notwenider Sesame Tweak
 module Spira
   def settings
     @settings ||= {}
@@ -5,8 +6,10 @@ module Spira
   module_function :settings
 end
 
+# Hinzufügen des Sesame Repositorys als Default
 Spira.add_repository! :default, RDF::Sesame::Repository.new("http://localhost:8080/openrdf-sesame/repositories/ruta")
 
+# Alle Benötigten Präfixe im Namespace der Anwendung
 class Ruta < RDF::Vocabulary("http://rubytask.org/")
   Property = RDF::Vocabulary.new("#{Ruta}property/")
   Instance = RDF::Vocabulary.new("#{Ruta}instance/")
@@ -22,6 +25,7 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
     end
   end
 
+  # Klassenhelper für alle Modelle
   module ClassHelpers
     def search token
       cl = self
@@ -55,13 +59,15 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
     end
   end
 
+  # Instanzhelper für alle Modelle
   module InstanceHelpers
-    # Ermittelt die ID der Modelinstanz.
+    # Ermittelt die ID der Modellinstanz.
     def get_id
       self.uri.to_s.scan(/\/#{self.class.to_s.downcase}\/(.*)$/)[0][0]
     end
   end
 
+  # Eine Initialisierungsmethode für globale Kontexte
   def self.init
     Global.org = if Organisation.exist? name: "<global>"
       Organisation.as name: "<global>"
@@ -87,6 +93,7 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
   end
 end
 
+# Serializer für Datetime und Unicode Strings
 class DateTime
   include Spira::Type
 
@@ -126,5 +133,3 @@ class Spira::Types::String
 
   register_alias RDF::XSD.string
 end
-
-#Ruta.init

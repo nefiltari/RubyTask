@@ -12,6 +12,7 @@ class Member
   property :avatar, predicate: Ruta::Property.has_avatar, type: Spira::Types::URI
   has_many :friends, predicate: Ruta::Property.has_friend, type: :Member
 
+  # Gibt alle Freunde als formatiertes Hash-Array aus
   def friends_formatted
     uri = self.uri
     query = Ruta::Sparql.select.where(
