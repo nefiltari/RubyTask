@@ -9,7 +9,7 @@ class Organisation
   property :name, predicate: RDF::FOAF.name, type: RDF::XSD.string
   property :description, predicate: Ruta::Property.has_description, type: RDF::XSD.string
   property :created_at, predicate: Ruta::Property.created_at, type: RDF::XSD.dateTime
-  has_many :members, predicate: RDF::FOAF.member, type: :MemberInRole
+  has_many :member, predicate: RDF::FOAF.member, type: :MemberInRole
 
   def tasks
     uri = self.uri
@@ -70,7 +70,7 @@ class Organisation
     return if exist_member? member
     role = role.as(Role) unless role.class == Role
     mir = MemberInRole.create member: member, role: role
-    members.add mir
+    member.add mir
     save!
   end
 
@@ -84,8 +84,8 @@ class Organisation
     )
     org = self
     query.each_solution do |s|
-      org.members.each do |o|
-        org.members = org.members.delete(o) if o.uri == s.mir
+      org.member.each do |o|
+        org.member = org.member.delete(o) if o.uri == s.mir
       end
       org.save!
       #s.mir.as(MemberInRole).destroy!

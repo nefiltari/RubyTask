@@ -23,7 +23,8 @@ class Task
     )
     query.each_solution.count >= 1
   end
-
+  
+  =begin
   def tasksteps
     uri = self.uri
     query = Ruta::Sparql.select.where(
@@ -34,6 +35,7 @@ class Task
     query.each_solution { |sol| tasksteps.push(sol.taskstep.as(Milestone)) }
     tasksteps
   end
+  =end
 
   # Erzeugt eine ID aus einem Task sowie dem dazugehörenden Projekt, Eigentümer und einem optionalen Ziel
   # task: Name oder Modelinstanz
