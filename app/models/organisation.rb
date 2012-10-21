@@ -39,9 +39,9 @@ class Organisation
   def my_role member
     uri = self.uri
     query = Ruta::Sparql.select.where(
-      [uri, Ruta::Property.has_member, :mir],
-      [:mir, Ruta::Property.member, member.uri],
-      [:mir, Ruta::Property.role, :role]
+      [uri, RDF::FOAF.member, :mir],
+      [:mir, Ruta::Property.has_member, member.uri],
+      [:mir, Ruta::Property.has_role, :role]
     )
     role = nil
     query.each_solution { |sol| role = sol.role.as(Role) }
@@ -55,9 +55,9 @@ class Organisation
     uri = self.uri
     right = right.uri if right.class == Right
     query = Ruta::Sparql.select.where(
-      [uri, Ruta::Property.has_member, :mir],
-      [:mir, Ruta::Property.member, member.uri],
-      [:mir, Ruta::Property.role, :role],
+      [uri, RDF::FOAF.member, :mir],
+      [:mir, Ruta::Property.has_member, member.uri],
+      [:mir, Ruta::Property.has_role, :role],
       [:role, Ruta::Property.has_right, right]
     )
     query.each_solution.count >= 1
@@ -79,8 +79,8 @@ class Organisation
   def delete_member member
     uri = self.uri
     query = Ruta::Sparql.select.where(
-      [uri, Ruta::Property.has_member, :mir],
-      [:mir, Ruta::Property.member, member.uri]
+      [uri, RDF::FOAF.member, :mir],
+      [:mir, Ruta::Property.has_member, member.uri]
     )
     org = self
     query.each_solution do |s|
@@ -97,8 +97,8 @@ class Organisation
   def exist_member? member
     uri = self.uri
     query = Ruta::Sparql.select.where(
-      [uri, Ruta::Property.has_member, :mir],
-      [:mir, Ruta::Property.member, member.uri]
+      [uri, RDF::FOAF.member, :mir],
+      [:mir, Ruta::Property.has_member, member.uri]
     )
     query.each_solution.count >= 1
   end
