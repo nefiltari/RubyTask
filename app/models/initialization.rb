@@ -90,6 +90,17 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
     right = Right.create name: "All"
     admin.rights.add right
     admin.save!
+
+    # Einfügen von SubClass Beziehungen in das Repo
+    Repo << [Ruta::Class.organisation, RDF::RDFS.subClassOf, RDF::FOAF.Group]
+    Repo << [Ruta::Class.member, RDF::RDFS.subClassOf, RDF::FOAF.Member]
+    Repo << [Ruta::Class.memberinrole, RDF::RDFS.subClassOf, RDF::FOAF.Agent]
+    Repo << [Ruta::Class.project, RDF::RDFS.subClassOf, RDF::FOAF.Group]
+    Repo << [Ruta::Class.task, RDF::RDFS.subClassOf, RDF::OWL.Thing]
+    Repo << [Ruta::Class.taskstep, RDF::RDFS.subClassOf, RDF::OWL.Thing]
+    Repo << [Ruta::Class.role, RDF::RDFS.subClassOf, RDF::OWL.Thing]
+    Repo << [Ruta::Class.right, RDF::RDFS.subClassOf, RDF::OWL.Thing]
+    Repo << [Ruta::Class.milestone, RDF::RDFS.subClassOf, RDF::OWL.Thing]
   end
 end
 

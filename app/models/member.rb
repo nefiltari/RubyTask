@@ -6,18 +6,18 @@ class Member
   base_uri Ruta::Instance["member/"]
   type Ruta::Class.member
 
-  property :name, predicate: Ruta::Property.has_name, type: RDF::XSD.string
+  property :name, predicate: RDF::FOAF.nick, type: RDF::XSD.string
   property :created_at, predicate: Ruta::Property.created_at, type: RDF::XSD.dateTime
-  property :realname, predicate: Ruta::Property.has_real_name, type: RDF::XSD.string
-  property :avatar, predicate: Ruta::Property.has_avatar, type: Spira::Types::URI
-  has_many :friends, predicate: Ruta::Property.has_friend, type: :Member
+  property :realname, predicate: RDF::FOAF.name, type: RDF::XSD.string
+  property :avatar, predicate: RDF::FOAF.img, type: Spira::Types::URI
+  has_many :friends, predicate: RDF::FOAF.knows, type: :Member
 
   # Gibt alle Freunde als formatiertes Hash-Array aus
   def friends_formatted
     uri = self.uri
     query = Ruta::Sparql.select.where(
-      [uri, Ruta::Property.has_friend, :friend],
-      [:friend, Ruta::Property.has_real_name, :realname]
+      [uri, RDF::FOAF.knows, :friend],
+      [:friend, RDF::FOAF.name, :realname]
     )
     nfriends = []
     query.each_solution { |sol| nfriends.push({id: sol.friend.as(Member).get_id, realname: sol.realname.to_s}) }
@@ -53,8 +53,8 @@ class Member
     uri = self.uri
     query = Ruta::Sparql.select.where(
       [:org, RDF.type, Ruta::Class.organisation],
-      [:org, Ruta::Property.has_member, :mir],
-      [:mir, Ruta::Property.member, uri]
+      [:org, RDF::FOAF.member, :mir],
+      [:mir, Ruta::Property.has_member, uri]
     )
     orgs = []
     query.each_solution { |sol| orgs.push(sol.org.as(Organisation)) }
@@ -66,8 +66,8 @@ class Member
     uri = self.uri
     query = Ruta::Sparql.select.where(
       [:proj, RDF.type, Ruta::Class.project],
-      [:proj, Ruta::Property.has_member, :mir],
-      [:mir, Ruta::Property.member, uri]
+      [:proj, RDF::FOAF.member, :mir],
+      [:mir, Ruta::Property.has_member, uri]
     )
     projs = []
     query.each_solution { |sol| projs.push(sol.proj.as(Organisation)) }

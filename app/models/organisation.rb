@@ -6,10 +6,10 @@ class Organisation
   base_uri Ruta::Instance["organisation/"]
   type Ruta::Class.organisation
 
-  property :name, predicate: Ruta::Property.has_name, type: RDF::XSD.string
+  property :name, predicate: RDF::FOAF.name, type: RDF::XSD.string
   property :description, predicate: Ruta::Property.has_description, type: RDF::XSD.string
   property :created_at, predicate: Ruta::Property.created_at, type: RDF::XSD.dateTime
-  has_many :members, predicate: Ruta::Property.has_member, type: :MemberInRole
+  has_many :members, predicate: RDF::FOAF.member, type: :MemberInRole
 
   def tasks
     uri = self.uri

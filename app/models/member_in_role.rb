@@ -6,8 +6,8 @@ class MemberInRole
   base_uri Ruta::Instance["memberinrole"]
   type Ruta::Class.memberinrole
 
-  property :member, predicate: Ruta::Property.member, type: :Member
-  property :role, predicate: Ruta::Property.role, type: :Role
+  property :member, predicate: Ruta::Property.has_member, type: :Member
+  property :role, predicate: Ruta::Property.has_role, type: :Role
 
   # Erzeugt eine ID aus einem Recht
   # right: Name oder Modelinstanz
