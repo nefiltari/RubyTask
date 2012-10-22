@@ -70,7 +70,7 @@ class Organisation
     return if exist_member? member
     role = role.as(Role) unless role.class == Role
     mir = MemberInRole.create member: member, role: role
-    member.add mir
+    self.member.add mir
     save!
   end
 

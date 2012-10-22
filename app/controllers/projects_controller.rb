@@ -90,7 +90,7 @@ class ProjectsController < ApplicationController
   def dialog_add_member
     @org = Organisation.as name: params[:organisation_id]
     @project = Project.create name: params[:project_id], organisation: @org
-    @member = (@org.members.map{|m| m.member.name} - @project.members.map{|m| m.member.name}).map{|m| Member.as name: m}
+    @member = (@org.member.map{|m| m.member.name} - @project.member.map{|m| m.member.name}).map{|m| Member.as name: m}
 
     render partial: '/projects/dialog_add_member', layout: false
   end

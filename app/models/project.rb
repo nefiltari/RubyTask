@@ -9,7 +9,7 @@ class Project
   property :name, predicate: RDF::FOAF.name, type: RDF::XSD.string
   property :description, predicate: Ruta::Property.has_description, type: RDF::XSD.string
   property :created_at, predicate: Ruta::Property.created_at, type: RDF::XSD.dateTime
-  has_many :members, predicate: RDF::FOAF.member, type: :MemberInRole
+  has_many :member, predicate: RDF::FOAF.member, type: :MemberInRole
   property :organisation, predicate: Ruta::Property.belongs_to, type: :Organisation
 
   # Gibt das Role-Model des Benutzers im aktuellen Projekt aus
@@ -72,7 +72,7 @@ class Project
     return if exist_member? member
     role = role.as(Role) unless role.class == Role
     mir = MemberInRole.create member: member, role: role
-    members.add mir
+    self.member.add mir
     save!
   end
 
@@ -86,8 +86,8 @@ class Project
     )
     proj = self
     query.each_solution do |s|
-      proj.members.each do |o|
-        proj.members = proj.members.delete(o) if o.uri == s.mir
+      proj.member.each do |o|
+        proj.member = proj.member.delete(o) if o.uri == s.mir
       end
       proj.save!
       #s.mir.as(MemberInRole).destroy!

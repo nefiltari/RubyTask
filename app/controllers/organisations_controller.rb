@@ -33,7 +33,7 @@ class OrganisationsController < ApplicationController
   
   def show
     @org = Organisation.as name: params[:id]
-    @members = @org.members
+    @members = @org.member
     @is_member = @org.exist_member? @user
     @name = @org.name
     @org_id = @org.get_id

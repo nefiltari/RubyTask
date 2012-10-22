@@ -13,7 +13,7 @@
   %p
     %em 
       Member: 
-      = @project.members.map{|m| m.member.realname}.join(", ")
+      = @project.member.map{|m| m.member.realname}.join(", ")
   
   %hr
 

@@ -31,7 +31,7 @@ class Ruta < RDF::Vocabulary("http://rubytask.org/")
       cl = self
       query = Ruta::Sparql.select.where(
         [:model, RDF.type, Ruta::Class[cl.to_s.downcase]],
-        [:model, (cl == Member) ? Ruta::Property.has_real_name : Ruta::Property.has_name, :name]
+        [:model, (((cl == Member) || (cl == Organisation) || (cl == Project)) ? RDF::FOAF.name : Ruta::Property.has_name), :name]
       )
       results = []
       query.each_solution do |s|

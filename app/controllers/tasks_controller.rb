@@ -39,7 +39,7 @@ class TasksController < ApplicationController
     @org = Organisation.as name: params[:organisation]
     @proj = Project.as name: params[:project], organisation: @org
     @is_member = @org.exist_member? @user
-    @members = (@is_member) ? @proj.members : []
+    @members = (@is_member) ? @proj.member : []
     render partial: "dialog_add_member"
   end
 
