@@ -1,3 +1,6 @@
+# Repository Name
+REPOSITORY_NAME = "ruta"
+
 # Ein notwenider Sesame Tweak
 module Spira
   def settings
@@ -7,7 +10,7 @@ module Spira
 end
 
 # Hinzufügen des Sesame Repositorys als Default
-Spira.add_repository! :default, RDF::Sesame::Repository.new("http://localhost:8080/openrdf-sesame/repositories/ruta")
+Spira.add_repository! :default, RDF::Sesame::Repository.new("http://localhost:8080/openrdf-sesame/repositories/#{REPOSITORY_NAME}")
 
 # Alle Benötigten Präfixe im Namespace der Anwendung
 class Ruta < RDF::Vocabulary("http://rubytask.org/")
