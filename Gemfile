@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # general gems and views related stuff
-gem 'rails', '3.2.7'
+gem 'rails', '3.2.17'
 gem 'haml'
 gem 'haml-rails'
 gem 'jquery-ui-themes'
