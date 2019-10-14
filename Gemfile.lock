@@ -75,7 +75,7 @@ GEM
       railties (>= 3.1.0)
     jquery-ui-themes (0.0.6)
       httparty
-    json (1.7.4)
+    json (1.8.6)
     json_pure (1.7.4)
     jwt (0.1.5)
       multi_json (>= 1.0)
@@ -149,7 +149,7 @@ GEM
     rdf-sesame (0.3.0)
       json_pure (>= 1.4.2)
       rdf (~> 0.3.0)
-    rdoc (3.12)
+    rdoc (3.12.2)
       json (~> 1.4)
     sass (3.1.20)
     sass-rails (3.2.5)
